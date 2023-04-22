@@ -1,0 +1,14 @@
+Iniciar projeto no git.
+
+git init - Cria um repositório local.
+
+git remote add origin "Url do repositório criado no github".
+
+git pull origin "nome_branch_master".
+
+git config --list "Verificar o nome e o email".
+
+git config --global user.name "Nome do usuário".
+
+git config --global user.email "Email do usuário".
+

@@ -1,0 +1,1 @@
+docker run -e (Alterar variáveis de ambiente) POSTGRES_PASSWORD -d (Para não travar o console) -p (Porta em que o container irá rodar) 5432:5432 (Apontando a porta 5432 do postgre para a 5432 do computador

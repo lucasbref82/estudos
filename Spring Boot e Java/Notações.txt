@@ -1,0 +1,56 @@
+Anotações importantes:
+@RestController = Define que a classe é uma controladora REST.
+@ResponseBody = Define que  a função irá retornar uma resposta à requisição.
+@RequestMapping("/cozinhas") = Definindo rota do controlador
+@RequestMapping(value = "/estados", produces = MediaType.APPLICATION_JSON_VALUE) = Define que todas as classes do controlador só retornam JSON
+@GetMapping ou @GetMappiing("/rota_desejada") = Define que o método retorna um verbo GET                    
+@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE) = Definindo que a rota só retorna o tipo JSON, MediaType é um ENUM, caso queira passar mais de um tipo:
+@GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+
+Injeção de depêndencia:
+@Autowired = Serve para injetar uma classe sem precisar instanciar ou fazer injeção de depêndencia pelo construtor.
+
+Desambiguação de BEANS
+@Primary = Caso tenha dois beans implementados por uma só interface, com essa anotaçãoo conseguimos definir quem terá prioridade na hora de ser injetado.
+@Qualifier("nome_desejado") = Serve para qualificar um bean, na hora de ser injetado também deve-se colocar junto com o @AutoWired.
+@Profile("nome_desejado") = Serve para diferenciar vários tipos de ambientes, para funcionar no application.properties deve-se adicionar a propriedade: spring.profiles.active=NOME_DESEJADO
+
+Ciclo de vida dos bens
+@PostConstruct = Executa algo após o bean ser construido
+@PreDestroy = Executa algo antes do bean ser destruido 
+
+
+Sobre listener
+@EventListener = Definir que o método é um listener(ouvidor) que será chamado através de um evento.
+
+Recuperar variável do application.properties
+@Value("${nome_da_propriedade}")
+private String nome_da_propriedade;
+
+Sobre JPA 
+@PersistenceContext = Define que a instancia da classe EntityManager é um contexto JPA de persistência.
+@Transactional = Define que o método vai ser executado dentro de uma transação.
+
+
+Hibernate
+@UpdateTimestamp = Define que o campo será atualizado toda ver que um recurso irá ser atualizado.
+@CreationTimestamp = Define que o campo será atualizado quando o recurso for criado.
+
+
+Loombok 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true) = Criar hashcode e equals somente dos atributos que tiverem a notação @EqualsAndHashCode.Include em cima.
+@Getter = Deixa implicito todos os getters da classe.
+@Setter = Deixa implicito todos os setters da classe.
+@EqualsAndHashCode = Deixa implicito todos os Equals e Hash code da classe.
+@Data = Deixa implicito todos os getters setters hascode equals e toString da classe.
+
+Entidades
+@Entity = Anota que a classe é uma entidade.
+Atributos entidades
+@Id = Anota que é uma primary key
+@GeneratedValue(strategy = GenerationType.IDENTITY) = Anota que a primeira key vai ser auto-incremento
+@ManyToOne = Relacionamento muitos para um de tabela.
+@JoinColumn(name = "cozinha_codigo") = Dizer que o atributo é uma referencia a uma outra entidade e nomear ele.
+@Column(nullable = false) ||  @JoinColum(nullable = false) = Quer dizer que a coluna não aceita nulo
+@JsonProperty("nome_desejado") = Altera o nome na representação do JSON.
+@JsonIgnore = Não mostra o atributo na representação do JSON.

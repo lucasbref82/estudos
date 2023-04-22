@@ -1,0 +1,100 @@
+Comandos para gerenciar imagens
+
+Lista as imagens locais disponíveis no host
+
+
+$ docker images
+
+
+
+Remove uma ou mais imagens localmente
+
+
+$ docker rmi <nome_da_imagem>
+
+
+
+Criar imagem com Dockerfile, executar no diretório onde está o arquivo Dockerfile
+
+
+$ docker build -t <nome_da_imagem>:<versão_da_imagem> .
+
+
+
+Comandos para gerenciar Containers
+
+Lista os containers em execução, utilize a opção -a para listar todos
+
+
+$ docker ps <opções>
+
+
+
+
+Iniciar um novo container
+Algumas opções importantes:
+
+
+-p <porta_no_host>:<porta_no_container> publica uma porta do container para o host
+
+-v <pasta_no_host>:<pasta_no_container> monta um volume no container compartilhado com o host
+
+-e <nome_variavel>=<valor_variavel> cria uma variável dentro do container
+
+-d rodar o container em background
+
+--name <nome_do_container> define um nome para o container
+
+
+
+
+$ docker run <opções>
+
+
+
+Parar um container
+
+
+$ docker stop <id_ou_nome>
+
+
+
+Iniciar um container
+
+
+$ docker start <id_ou_nome>
+
+
+
+Reiniciar um container
+
+
+$ docker restart <id_ou_nome>
+
+
+
+Remover um container
+
+
+$ docker rm <id_ou_nome>
+
+
+
+Ver logs do container, utilize -f para acompanhar em tempo real
+
+
+$ docker logs <id_ou_nome>
+
+
+
+Exibe informações de uso de CPU, memória e rede.
+
+
+$ docker stats
+
+
+
+Acessar o shell do container
+
+
+$ docker exec -it <id_ou_nome> bash

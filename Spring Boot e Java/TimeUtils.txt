@@ -1,0 +1,1459 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+package com.sankhya.util;
+
+import br.com.sankhya.MethodInfo.MethodInfo;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
+
+public class TimeUtils {
+    private static Map<Integer, int[]> weekendJump = new HashMap();
+    private static long zeroDate;
+    public static final int MINUTES_PER_DAY = 1440;
+    public static final int SECONDS_PER_MINUTE = 60;
+    public static final int MILLISECONDS_PER_DAY = 86400000;
+    public static final int MILLISECONDS_PER_SECONDS = 1000;
+    public static final int MILLISECONDS_PER_MINUTE = 60000;
+    public static final int MILLISECONDS_PER_HOUR = 3600000;
+
+    public TimeUtils() {
+    }
+
+    public static long add(long timestamp, int amount, int field) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(timestamp);
+        calendar.add(field, amount);
+        return calendar.getTimeInMillis();
+    }
+
+    public static long set(long timestamp, int value, int field) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(timestamp);
+        calendar.set(field, value);
+        return calendar.getTimeInMillis();
+    }
+
+    public static long addWorkingDays(long time, int days) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        int i = 0;
+
+        while(i < days) {
+            c.add(5, 1);
+            int day = c.get(7);
+            if (day != 7 && day != 1) {
+                ++i;
+            }
+        }
+
+        return c.getTimeInMillis();
+    }
+
+    public static long clear(long timestamp, int field) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(timestamp);
+        calendar.clear(field);
+        return calendar.getTimeInMillis();
+    }
+
+    public static Timestamp bigDecimal2Timestamp(BigDecimal time) throws Exception {
+        String strOrigem = time.toString();
+        strOrigem = StringUtils.padl(strOrigem, 6, '0');
+        StringBuffer strHora = new StringBuffer();
+        strHora.append(strOrigem.substring(0, 2));
+        strHora.append(":");
+        strHora.append(strOrigem.substring(2, 4));
+        strHora.append(":");
+        strHora.append(strOrigem.substring(4, 6));
+        return toTimestamp(strHora.toString(), "HH:mm:ss");
+    }
+
+    public static Timestamp buildPrintableTimestamp(long time, final String format) {
+        return new Timestamp(time) {
+            public String toString() {
+                SimpleDateFormat dfm = new SimpleDateFormat(format);
+                return dfm.format(this);
+            }
+        };
+    }
+
+    public static Timestamp buildTimestamp(String text) {
+        text = StringUtils.getEmptyAsNull(text);
+        if (text == null) {
+            return null;
+        } else {
+            int dateSeparatorCount = StringUtils.countChars(text, '/');
+            Calendar c = new GregorianCalendar();
+            int currentMillenium = c.get(1) / 100 * 100;
+            c.clear();
+            int dateTimeSeparator = text.indexOf(32);
+            if (dateTimeSeparator == -1) {
+                dateTimeSeparator = text.length();
+            }
+
+            if (dateSeparatorCount != 0) {
+                if (dateSeparatorCount != 2) {
+                    throw new IllegalArgumentException("Data inválida: " + text);
+                }
+
+                String date = text.substring(0, dateTimeSeparator).trim();
+                if (StringUtils.countChars(date, '/') != 2) {
+                    throw new IllegalArgumentException("Data inválida: " + text);
+                }
+
+                int[][] dateComponents = new int[][]{{5, 0}, {2, -1}, {1, 0}};
+                int componentIndex = 0;
+                StringTokenizer tokenizer = new StringTokenizer(date, "/");
+
+                while(tokenizer.hasMoreTokens()) {
+                    int val = Integer.parseInt(tokenizer.nextToken().trim());
+                    c.set(dateComponents[componentIndex][0], val + dateComponents[componentIndex++][1]);
+                }
+
+                if (c.get(1) < 1000) {
+                    c.add(1, currentMillenium);
+                }
+
+                String time = dateTimeSeparator < text.length() ? text.substring(dateTimeSeparator).trim() : "";
+                if (time.length() > 0) {
+                    int timeSeparatorCount = StringUtils.countChars(time, ':');
+                    if (timeSeparatorCount == 0) {
+                        time = insertTimeSeparator(time);
+                    }
+
+                    if (timeSeparatorCount > 2) {
+                        throw new IllegalArgumentException("Hora inválida: " + text);
+                    }
+
+                    tokenizer = new StringTokenizer(time, ":");
+                    int[] timeComponents = new int[]{11, 12, 13};
+                    componentIndex = 0;
+
+                    while(tokenizer.hasMoreTokens()) {
+                        c.set(timeComponents[componentIndex++], Integer.parseInt(tokenizer.nextToken().trim()));
+                    }
+                }
+            } else {
+                int timeSeparatorCount = StringUtils.countChars(text, ':');
+                if (timeSeparatorCount > 2) {
+                    throw new IllegalArgumentException("Hora inválida: " + text);
+                }
+
+                StringTokenizer tokenizer = new StringTokenizer(text, ":");
+                int[] timeComponents = new int[]{11, 12, 13};
+                int var15 = 0;
+
+                while(tokenizer.hasMoreTokens()) {
+                    c.set(timeComponents[var15++], Integer.parseInt(tokenizer.nextToken().trim()));
+                }
+            }
+
+            return new Timestamp(c.getTimeInMillis());
+        }
+    }
+
+    public static long clearDate(long datetime) {
+        long date = clearTime(datetime);
+        return datetime - date;
+    }
+
+    public static Timestamp clearTime(Timestamp timestamp) {
+        return new Timestamp(clearTime(timestamp.getTime()));
+    }
+
+    public static long clearTime(long timestamp) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(timestamp);
+        clearTime((Calendar)calendar);
+        return calendar.getTime().getTime();
+    }
+
+    public static void clearTime(Calendar calendar) {
+        calendar.clear(11);
+        calendar.clear(10);
+        calendar.clear(12);
+        calendar.clear(13);
+        calendar.clear(14);
+        calendar.clear(9);
+    }
+
+    public static int compareDates(Calendar c1, Calendar c2) {
+        Calendar menorDataPossivel = new GregorianCalendar();
+        menorDataPossivel.set(1600, 1, 1);
+        if (c1.getTimeInMillis() < menorDataPossivel.getTimeInMillis()) {
+            c1.setTimeInMillis(menorDataPossivel.getTimeInMillis());
+        } else if (c1.get(1) > 99999) {
+            c1.set(1, 99999);
+        }
+
+        if (c2.getTimeInMillis() < menorDataPossivel.getTimeInMillis()) {
+            c2.setTimeInMillis(menorDataPossivel.getTimeInMillis());
+        } else if (c2.get(1) > 99999) {
+            c2.set(1, 99999);
+        }
+
+        long l1 = (long)(c1.get(1) * 10000 + c1.get(2) * 100 + c1.get(5));
+        long l2 = (long)(c2.get(1) * 10000 + c2.get(2) * 100 + c2.get(5));
+        return (int)(l1 - l2);
+    }
+
+    public static int compareOnlyDates(Timestamp t1, Timestamp t2) {
+        if (t1 == null) {
+            return t2 == null ? 0 : -1;
+        } else if (t2 == null) {
+            return 1;
+        } else {
+            int year = false;
+            Calendar c = new GregorianCalendar();
+            Calendar menorDataPossivel = new GregorianCalendar();
+            menorDataPossivel.set(1600, 1, 1);
+            c.setTimeInMillis(t1.getTime());
+            if (c.getTimeInMillis() < menorDataPossivel.getTimeInMillis()) {
+                c.setTimeInMillis(menorDataPossivel.getTimeInMillis());
+            } else if (c.get(1) > 99999) {
+                c.set(1, 99999);
+            }
+
+            menorDataPossivel.setTimeInMillis(menorDataPossivel.getTimeInMillis());
+            int year = c.get(1);
+            long l1 = (long)(year * 10000 + c.get(2) * 100 + c.get(5));
+            c.setTimeInMillis(t2.getTime());
+            if (c.getTimeInMillis() < menorDataPossivel.getTimeInMillis()) {
+                c.setTimeInMillis(menorDataPossivel.getTimeInMillis());
+            } else if (c.get(1) > 99999) {
+                c.set(1, 99999);
+            }
+
+            year = c.get(1);
+            long l2 = (long)(year * 10000 + c.get(2) * 100 + c.get(5));
+            return (int)(l1 - l2);
+        }
+    }
+
+    public static Timestamp concatDateAndTime(Timestamp date, Timestamp time) throws Exception {
+        SimpleDateFormat dfDate = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+        return toTimestamp(dfDate.format(date).concat(" ").concat(dfTime.format(time)), "dd/MM/yyyy HH:mm:ss");
+    }
+
+    @MethodInfo(
+        name = "",
+        description = "Retorna o mes por extenso.",
+        arguments = {""},
+        category = "Outra"
+    )
+    public static String mesext(Timestamp date) {
+        return (new SimpleDateFormat("MMMMMMMMMM")).format(date);
+    }
+
+    public static String dataPorExtenso(Object data) {
+        return data == null ? "" : (new SimpleDateFormat("dd 'de' MMMMMMMMMM 'de' yyyy")).format(data);
+    }
+
+    public static Integer dayOfWeek(Timestamp data) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(data.getTime());
+        return new Integer(cal.get(7));
+    }
+
+    public static String formataDDMMYY(Object data) {
+        SimpleDateFormat frmData = new SimpleDateFormat("dd/MM/yy");
+        return data != null ? frmData.format(data) : "  /  /  ";
+    }
+
+    public static String formataDDMMYYYY(Object data) {
+        SimpleDateFormat frmData = new SimpleDateFormat("dd/MM/yyyy");
+        return data != null ? frmData.format(data) : "  /  /    ";
+    }
+
+    public static String formataHHMM(Object data) {
+        SimpleDateFormat frmData = new SimpleDateFormat("HHmm");
+        return data != null ? frmData.format(data) : null;
+    }
+
+    public static String formataYYYYMMDD(Object data) {
+        SimpleDateFormat frmData = new SimpleDateFormat("yyyyMMdd");
+        return data != null ? frmData.format(data) : null;
+    }
+
+    public static long getDayEnd(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        c.set(11, c.getActualMaximum(11));
+        c.set(10, c.getActualMaximum(10));
+        c.set(12, c.getActualMaximum(12));
+        c.set(13, c.getActualMaximum(13));
+        c.set(14, c.getActualMaximum(14));
+        c.set(9, c.getActualMaximum(9));
+        return c.getTimeInMillis();
+    }
+
+    public static long getDayEndNotMillisecond(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        c.set(11, c.getActualMaximum(11));
+        c.set(10, c.getActualMaximum(10));
+        c.set(12, c.getActualMaximum(12));
+        c.set(13, c.getActualMaximum(13));
+        c.set(9, c.getActualMaximum(9));
+        return c.getTimeInMillis();
+    }
+
+    public static long getDayStart(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        c.set(11, c.getActualMinimum(11));
+        c.set(10, c.getActualMinimum(10));
+        c.set(12, c.getActualMinimum(12));
+        c.set(13, c.getActualMinimum(13));
+        c.set(14, c.getActualMinimum(14));
+        c.set(9, c.getActualMinimum(9));
+        return c.getTimeInMillis();
+    }
+
+    public static int getMaximum(Timestamp time, int field) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time.getTime());
+        return c.getActualMaximum(field);
+    }
+
+    public static int getDifference(Timestamp t1, Timestamp t2) {
+        return getDifference(t1, t2, true);
+    }
+
+    public static int getDifference(Timestamp t1, Timestamp t2, boolean unsigned) {
+        long l1 = t1.getTime();
+        long l2 = t2.getTime();
+        int result = (int)(l1 / 86400000L - l2 / 86400000L);
+        if (result < 0 && unsigned) {
+            result *= -1;
+        }
+
+        return result;
+    }
+
+    public static long getDifferenceInMinutes(Timestamp t1, Timestamp t2, boolean unsigned) {
+        long l1 = t1.getTime();
+        long l2 = t2.getTime();
+        int result = (int)(timestamp2Minutes(l1) - timestamp2Minutes(l2));
+        if (result < 0 && unsigned) {
+            result *= -1;
+        }
+
+        return (long)result;
+    }
+
+    public static long getDifferenceInMinutes(Timestamp t1, Timestamp t2) {
+        return getDifferenceInMinutes(t1, t2, true);
+    }
+
+    public static long getDifferenceInMonths(Timestamp t1, Timestamp t2) {
+        Calendar c1 = new GregorianCalendar();
+        Calendar c2 = new GregorianCalendar();
+        c1.setTime(t1);
+        c2.setTime(t2);
+        long d1 = (long)(c1.get(1) * 12);
+        d1 += (long)(c1.get(2) + 1);
+        long d2 = (long)(c2.get(1) * 12);
+        d2 += (long)(c2.get(2) + 1);
+        return Math.abs(d2 - d1);
+    }
+
+    public static long getDifferenceInHour(Timestamp t1, Timestamp t2) {
+        return getDifferenceInHour(t1, t2, true);
+    }
+
+    public static long getDifferenceInHour(Timestamp t1, Timestamp t2, boolean unsigned) {
+        long l1 = t1.getTime();
+        long l2 = t2.getTime();
+        int result = (int)(timestamp2Hour(l1) - timestamp2Hour(l2));
+        if (result < 0 && unsigned) {
+            result *= -1;
+        }
+
+        return (long)result;
+    }
+
+    public static long timestamp2Hour(long timestamp) {
+        return timestamp / 3600L / 1000L;
+    }
+
+    public static Date copyValue(Date dtFrom, Date dtTo, int field) {
+        GregorianCalendar c1 = new GregorianCalendar();
+        GregorianCalendar c2 = new GregorianCalendar();
+        c1.setTime(dtTo);
+        c2.setTime(dtFrom);
+        c1.set(field, c2.get(field));
+        return c1.getTime();
+    }
+
+    public static String getDisplayableTime(int timeWithMinutes) {
+        return getDisplayableTime(new BigDecimal(timeWithMinutes));
+    }
+
+    public static String getDisplayableTime(BigDecimal timeWithMinutes) {
+        if (timeWithMinutes == null) {
+            return "";
+        } else {
+            boolean negative = false;
+            if (timeWithMinutes.intValue() < 0) {
+                negative = true;
+                timeWithMinutes = timeWithMinutes.multiply(new BigDecimal(-1));
+            }
+
+            String strTimeWithMinutes = String.valueOf(timeWithMinutes.intValue());
+            int minutesStart = Math.max(strTimeWithMinutes.length() - 2, 0);
+            String timeToken = strTimeWithMinutes.substring(0, minutesStart).trim();
+            String minuteToken = strTimeWithMinutes.substring(minutesStart).trim();
+            Integer time = new Integer(0);
+            Integer minute = new Integer(0);
+            String result = null;
+            if (timeToken != null && timeToken.length() > 0) {
+                if (timeToken.length() == 1 && timeToken.equals("-")) {
+                    timeToken = null;
+                }
+
+                if (timeToken != null) {
+                    time = new Integer(timeToken);
+                }
+            }
+
+            if (minuteToken != null && minuteToken.length() > 0) {
+                minute = new Integer(minuteToken);
+            }
+
+            StringBuffer buf = new StringBuffer();
+            buf.append(time);
+            buf.append(":");
+            buf.append(StringUtils.stringZero(minute, 2));
+            if (buf.length() < 5) {
+                result = StringUtils.padl(buf.toString(), 5, '0');
+            } else {
+                result = buf.toString();
+            }
+
+            if (negative) {
+                result = "-" + result;
+            }
+
+            return result;
+        }
+    }
+
+    public static BigDecimal getHoraDecimal(Timestamp data) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(data.getTime());
+        String hora = String.valueOf(cal.get(11));
+        String minutos = String.valueOf(cal.get(12));
+        if (minutos.length() == 1) {
+            minutos = "0" + minutos;
+        }
+
+        return new BigDecimal(hora + minutos);
+    }
+
+    public static long getMonthEnd(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        c.set(5, c.getActualMaximum(5));
+        c.clear(11);
+        c.clear(10);
+        c.clear(12);
+        c.clear(13);
+        c.clear(14);
+        c.clear(9);
+        return c.getTimeInMillis();
+    }
+
+    public static long getMonthEndMax(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        c.set(5, c.getActualMaximum(5));
+        c.set(11, c.getActualMaximum(11));
+        c.set(10, c.getActualMaximum(10));
+        c.set(12, c.getActualMaximum(12));
+        c.set(13, c.getActualMaximum(13));
+        c.set(14, c.getActualMaximum(14));
+        c.set(9, c.getActualMaximum(9));
+        return c.getTimeInMillis();
+    }
+
+    public static long getMonthStart(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        c.set(5, c.getActualMinimum(5));
+        c.clear(11);
+        c.clear(10);
+        c.clear(12);
+        c.clear(13);
+        c.clear(14);
+        c.clear(9);
+        return c.getTimeInMillis();
+    }
+
+    public static String getNow(String formatPattern) {
+        SimpleDateFormat df = new SimpleDateFormat(formatPattern);
+        return df.format(new Date());
+    }
+
+    public static Timestamp getNow() {
+        return new Timestamp(System.currentTimeMillis());
+    }
+
+    public static int getTimeInMinutes(Timestamp t1) {
+        Calendar c = new GregorianCalendar();
+        c.setTime(t1);
+        return c.get(11) * 60 + c.get(12);
+    }
+
+    public static long getToday() {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        calendar.clear(11);
+        calendar.clear(10);
+        calendar.clear(12);
+        calendar.clear(13);
+        calendar.clear(14);
+        calendar.clear(9);
+        return calendar.getTime().getTime();
+    }
+
+    public static long getToday(int[] clearFields) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+        for(int i = 0; i < clearFields.length; ++i) {
+            calendar.clear(clearFields[i]);
+        }
+
+        return calendar.getTimeInMillis();
+    }
+
+    public static Timestamp getValueOrNow(Timestamp value) {
+        Timestamp result;
+        if (value == null) {
+            result = new Timestamp(System.currentTimeMillis());
+        } else {
+            result = value;
+        }
+
+        return result;
+    }
+
+    public static int getWeekOfYear(Date d) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTimeInMillis(d.getTime());
+        return calendar.get(3);
+    }
+
+    public static BigDecimal getYearMonth(Timestamp time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time.getTime());
+        int year = c.get(1);
+        int mounth = c.get(2) + 1;
+        return new BigDecimal(year * 100 + mounth);
+    }
+
+    public static long getZeroDate() {
+        return zeroDate;
+    }
+
+    public static Timestamp getTimeOrZero(Timestamp time) {
+        return time == null ? new Timestamp(zeroDate) : time;
+    }
+
+    public static boolean isValidTime(BigDecimal timeWithMinutes) {
+        int time = false;
+        int minute = false;
+        if (timeWithMinutes == null) {
+            return true;
+        } else {
+            String strTimeWithMinutes = String.valueOf(timeWithMinutes.intValue());
+            int minutesStart = Math.max(strTimeWithMinutes.length() - 2, 0);
+
+            try {
+                String timeToken = strTimeWithMinutes.substring(0, minutesStart).trim();
+                String minuteToken = strTimeWithMinutes.substring(minutesStart).trim();
+                int time = 0;
+                int minute = 0;
+                if (timeToken != null && timeToken.length() > 0) {
+                    time = Integer.parseInt(timeToken);
+                }
+
+                if (minuteToken != null && minuteToken.length() > 0) {
+                    minute = Integer.parseInt(minuteToken);
+                }
+
+                return time >= 0 && minute >= 0 && minute <= 59;
+            } catch (RuntimeException var7) {
+                System.out.println("Debug: strTimeWithMinutes=" + strTimeWithMinutes);
+                throw var7;
+            }
+        }
+    }
+
+    public static BigDecimal minutes2Time(int minutes) {
+        return minutes2Time(new BigDecimal(minutes));
+    }
+
+    public static BigDecimal minutes2Time(BigDecimal minutes) {
+        int time = false;
+        int minute = false;
+        if (minutes == null) {
+            return new BigDecimal(0);
+        } else {
+            int time = minutes.intValue() / 60;
+            int minute = minutes.intValue() % 60;
+            return new BigDecimal(time * 100 + minute);
+        }
+    }
+
+    public static long minutes2Timestamp(long minutes) {
+        return minutes * 60L * 1000L;
+    }
+
+    public static BigDecimal time2Minutes(int timeWithMinutes) {
+        return time2Minutes(new BigDecimal(timeWithMinutes));
+    }
+
+    public static BigDecimal time2Minutes(BigDecimal timeWithMinutes) {
+        int time = false;
+        int minute = false;
+        if (timeWithMinutes == null) {
+            return new BigDecimal(0);
+        } else {
+            String strTimeWithMinutes = String.valueOf(timeWithMinutes.intValue());
+            int minutesStart = Math.max(strTimeWithMinutes.length() - 2, 0);
+
+            int time;
+            int minute;
+            try {
+                String timeToken = strTimeWithMinutes.substring(0, minutesStart).trim();
+                String minuteToken = strTimeWithMinutes.substring(minutesStart).trim();
+                time = 0;
+                minute = 0;
+                if (timeToken != null && timeToken.length() > 0) {
+                    time = Integer.parseInt(timeToken);
+                }
+
+                if (minuteToken != null && minuteToken.length() > 0) {
+                    minute = Integer.parseInt(minuteToken);
+                }
+            } catch (RuntimeException var7) {
+                System.out.println("Debug: strTimeWithMinutes=" + strTimeWithMinutes);
+                throw var7;
+            }
+
+            return new BigDecimal(time * 60 + minute);
+        }
+    }
+
+    public static BigDecimal timestamp2BigDecimal(Timestamp time) {
+        SimpleDateFormat df = new SimpleDateFormat("HHmmss");
+        String strTime = df.format(time);
+        return new BigDecimal(Integer.parseInt(strTime));
+    }
+
+    public static long timestamp2Minutes(long timestamp) {
+        return timestamp / 1000L / 60L;
+    }
+
+    public static String milisegundos2HHmmss(long timeMillis) throws Exception {
+        SimpleDateFormat horasFormat = new SimpleDateFormat("HH:mm:ss");
+        long time = timeMillis / 1000L;
+        int seconds = (int)(time % 60L);
+        int minutes = (int)(time % 3600L / 60L);
+        int hours = (int)(time / 3600L);
+        Calendar cal = new GregorianCalendar();
+        cal.set(13, seconds);
+        cal.set(12, minutes);
+        cal.set(11, hours);
+        return horasFormat.format(cal.getTime());
+    }
+
+    public static String milisegundos2HHmmssSSS(long timeMillis) throws Exception {
+        long time = timeMillis / 1000L;
+        int seconds = (int)(time % 60L);
+        int minutes = (int)(time % 3600L / 60L);
+        int hours = (int)(time / 3600L);
+        timeMillis -= (long)(hours * 3600000 + minutes * '\uea60' + seconds * 1000);
+        return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, timeMillis);
+    }
+
+    public static String milisegundos2mmss(long timeMillis) throws Exception {
+        long time = timeMillis / 1000L;
+        int seconds = (int)(time % 60L);
+        int minutes = (int)(time % 3600L / 60L);
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    public static String formatMillis2ElapsedTime(long milliseconds) {
+        return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds), TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)), TimeUnit.MILLISECONDS.toSeconds(milliseconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds)));
+    }
+
+    public static String formatMillis2SecondsElapsed(long milliseconds) {
+        if (milliseconds < 1000L) {
+            return milliseconds + "ms";
+        } else {
+            NumberFormat nf = NumberFormat.getInstance();
+            nf.setMaximumFractionDigits(3);
+            return nf.format((double)milliseconds / 1000.0D) + "s";
+        }
+    }
+
+    public static String formatMillis2SimpleElapsedTime(long milliseconds) {
+        if (milliseconds < 1000L) {
+            return milliseconds + "ms";
+        } else if (milliseconds < 60000L) {
+            return Long.toString(TimeUnit.MILLISECONDS.toSeconds(milliseconds)) + "s";
+        } else {
+            return milliseconds < 3600000L ? Long.toString(TimeUnit.MILLISECONDS.toMinutes(milliseconds)) + "m" : Long.toString(TimeUnit.MILLISECONDS.toMinutes(milliseconds)) + "h";
+        }
+    }
+
+    public static long toDate(String s) throws Exception {
+        return toDate(s, "dd/MM/yyyy");
+    }
+
+    public static long toDate(String s, String pattern) throws Exception {
+        SimpleDateFormat df = new SimpleDateFormat(pattern);
+        return df.parse(s).getTime();
+    }
+
+    public static BigDecimal toDecimalTime(String timeWithMinutes) {
+        timeWithMinutes = StringUtils.getEmptyAsNull(timeWithMinutes);
+        if (timeWithMinutes == null) {
+            return null;
+        } else {
+            int timeSeparatorIndex = timeWithMinutes.indexOf(58);
+            if (timeSeparatorIndex < 0) {
+                throw new IllegalArgumentException("Formato de hora decimal inválido: " + timeWithMinutes);
+            } else {
+                int time = Integer.parseInt(timeWithMinutes.substring(0, timeSeparatorIndex)) * 100;
+                int minutes = Integer.parseInt(timeWithMinutes.substring(timeSeparatorIndex + 1));
+                return new BigDecimal(time + minutes);
+            }
+        }
+    }
+
+    public static Timestamp toTimestamp(String s) throws Exception {
+        return new Timestamp(toDate(s));
+    }
+
+    public static Timestamp toTimestamp(String s, String pattern) throws Exception {
+        return new Timestamp(toDate(s, pattern));
+    }
+
+    public static Timestamp toDateTimestamp(String s, String pattern) throws Exception {
+        return new Timestamp(toDate(s, pattern));
+    }
+
+    public static long weekendFoward(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        int[] days = (int[])((int[])weekendJump.get(new Integer(c.get(7))));
+        if (days != null) {
+            c.add(7, days[1]);
+        }
+
+        return c.getTimeInMillis();
+    }
+
+    public static long weekendReward(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        int[] days = (int[])((int[])weekendJump.get(new Integer(c.get(7))));
+        if (days != null) {
+            c.add(7, days[0]);
+        }
+
+        return c.getTimeInMillis();
+    }
+
+    private static String insertTimeSeparator(String hora) {
+        int tam = hora.length();
+        int cont = 1;
+        StringBuffer result = new StringBuffer(hora);
+
+        for(int i = tam; i > 1; --i) {
+            if (cont == 2) {
+                result.insert(i - 1, ':');
+                cont = 1;
+            } else {
+                ++cont;
+            }
+        }
+
+        return result.toString();
+    }
+
+    public static long getWeekEnd(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        c.set(7, c.getActualMaximum(7));
+        c.set(11, c.getActualMaximum(11));
+        c.set(10, c.getActualMaximum(10));
+        c.set(12, c.getActualMaximum(12));
+        c.set(13, c.getActualMaximum(13));
+        c.set(14, c.getActualMaximum(14));
+        c.set(9, c.getActualMaximum(9));
+        return c.getTimeInMillis();
+    }
+
+    public static long getNextWeekStart(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        c.set(7, c.getActualMinimum(7));
+        c.clear(11);
+        c.clear(10);
+        c.clear(12);
+        c.clear(13);
+        c.clear(14);
+        c.clear(9);
+        c.add(3, 1);
+        return c.getTimeInMillis();
+    }
+
+    public static boolean isSunday(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        return c.get(7) == 1;
+    }
+
+    public static boolean isFirstDayOfMonth(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        return c.get(5) == 1;
+    }
+
+    public static boolean isLastDayOfMonth(long time) {
+        return getMonthEnd(time) == time;
+    }
+
+    public static long getNextMonthStart(long time) {
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(time);
+        c.set(5, c.getActualMinimum(5));
+        c.clear(11);
+        c.clear(10);
+        c.clear(12);
+        c.clear(13);
+        c.clear(14);
+        c.clear(9);
+        c.add(2, 1);
+        return c.getTimeInMillis();
+    }
+
+    public static Timestamp buildData(int dia, int mes, int ano) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(ano, mes, dia);
+        clearTime((Calendar)calendar);
+        return new Timestamp(calendar.getTimeInMillis());
+    }
+
+    public static Timestamp getInicioPeriodo(Timestamp dataBase, int tipoPeriodo) {
+        return getInicioPeriodo(dataBase, TimeUtils.TipoPeriodo.values()[tipoPeriodo]);
+    }
+
+    public static Timestamp getInicioPeriodo(Timestamp dataBase, TimeUtils.TipoPeriodo tipoPeriodo) {
+        Calendar calendar = Calendar.getInstance(new Locale("pt", "BR"));
+        calendar.setTimeInMillis(dataBase.getTime());
+        calendar.set(11, 0);
+        calendar.set(12, 0);
+        calendar.set(13, 0);
+        calendar.set(14, 0);
+        int dia = calendar.get(5);
+        int mes = calendar.get(2);
+        switch(tipoPeriodo) {
+        case DIA:
+            break;
+        case SEMANA:
+            calendar.add(3, -1);
+            calendar.set(7, 1);
+            break;
+        case DEZENA:
+            byte dia;
+            if (dia <= 10) {
+                dia = 1;
+            } else if (dia <= 20) {
+                dia = 11;
+            } else {
+                dia = 21;
+            }
+
+            calendar.set(5, dia);
+            break;
+        case QUINZENA:
+            calendar.set(5, dia <= 15 ? 1 : 16);
+            break;
+        case MES:
+            calendar.set(5, 1);
+            break;
+        case BIMESTRE:
+            mes = (int)Math.floor((double)(mes / 2)) * 2;
+            calendar.set(2, mes);
+            calendar.set(5, 1);
+            break;
+        case TRIMESTRE:
+            mes = (int)Math.floor((double)(mes / 3)) * 3;
+            calendar.set(2, mes);
+            calendar.set(5, 1);
+            break;
+        case QUADRIMESTRE:
+            mes = (int)Math.floor((double)(mes / 4)) * 4;
+            calendar.set(2, mes);
+            calendar.set(5, 1);
+            break;
+        case SEMESTRE:
+            mes = (int)Math.floor((double)(mes / 6)) * 6;
+            calendar.set(2, mes);
+            calendar.set(5, 1);
+            break;
+        case ANO:
+            calendar.set(2, 0);
+            calendar.set(5, 1);
+            break;
+        default:
+            throw new IllegalArgumentException("Tipo de período inválido!");
+        }
+
+        return new Timestamp(calendar.getTimeInMillis());
+    }
+
+    public static Timestamp getFinalPeriodo(Timestamp dataBase, int tipoPeriodo) {
+        return getFinalPeriodo(dataBase, TimeUtils.TipoPeriodo.values()[tipoPeriodo]);
+    }
+
+    public static Timestamp getFinalPeriodo(Timestamp dataBase, TimeUtils.TipoPeriodo tipoPeriodo) {
+        Calendar calendar = Calendar.getInstance(new Locale("pt", "BR"));
+        calendar.setTimeInMillis(dataBase.getTime());
+        calendar.set(11, 23);
+        calendar.set(12, 59);
+        calendar.set(13, 59);
+        calendar.set(14, 999);
+        int dia = calendar.get(5);
+        int mes = calendar.get(2);
+        switch(tipoPeriodo) {
+        case DIA:
+            break;
+        case SEMANA:
+            calendar.set(7, 7);
+            break;
+        case DEZENA:
+            if (dia <= 10) {
+                dia = 10;
+            } else if (dia <= 20) {
+                dia = 20;
+            } else {
+                dia = getMaximum(dataBase, 5);
+            }
+
+            calendar.set(5, dia);
+            break;
+        case QUINZENA:
+            calendar.set(5, dia <= 15 ? 15 : getMaximum(dataBase, 5));
+            break;
+        case MES:
+            calendar.set(5, getMaximum(dataBase, 5));
+            break;
+        case BIMESTRE:
+            calendar.set(5, 1);
+            mes += 2 - mes % 2;
+            calendar.set(2, mes);
+            calendar.add(5, -1);
+            break;
+        case TRIMESTRE:
+            calendar.set(5, 1);
+            mes += 3 - mes % 3;
+            calendar.set(2, mes);
+            calendar.add(5, -1);
+            break;
+        case QUADRIMESTRE:
+            calendar.set(5, 1);
+            mes += 4 - mes % 4;
+            calendar.set(2, mes);
+            calendar.add(5, -1);
+            break;
+        case SEMESTRE:
+            calendar.set(5, 1);
+            mes += 6 - mes % 6;
+            calendar.set(2, mes);
+            calendar.add(5, -1);
+            break;
+        case ANO:
+            calendar.set(2, 11);
+            calendar.set(5, 31);
+            break;
+        default:
+            throw new IllegalArgumentException("Tipo de período inválido!");
+        }
+
+        return new Timestamp(calendar.getTimeInMillis());
+    }
+
+    public static Timestamp clearFields(Timestamp timestamp, int... fields) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp.getTime());
+        int[] arr$ = fields;
+        int len$ = fields.length;
+
+        for(int i$ = 0; i$ < len$; ++i$) {
+            int f = arr$[i$];
+            calendar.clear(f);
+        }
+
+        return new Timestamp(calendar.getTimeInMillis());
+    }
+
+    public static int getDayOfMonth(Timestamp dataInstalacao) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(dataInstalacao.getTime());
+        int diaInstalacao = calendar.get(5);
+        return diaInstalacao;
+    }
+
+    public static Timestamp getHorarioExec(String horarioExec, int diasAdicionais) throws Exception {
+        horarioExec = StringUtils.stringZero(horarioExec, 4, false);
+        int split = horarioExec.length() - 2;
+        String configHour = horarioExec.substring(0, split);
+        String configMinute = horarioExec.substring(split);
+        if (horarioExec.length() <= 4 && Integer.valueOf(configHour) <= 23 && Integer.valueOf(configMinute) <= 59) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTimeInMillis(System.currentTimeMillis());
+            cal.add(5, diasAdicionais);
+            cal.set(11, Integer.valueOf(configHour));
+            cal.set(12, Integer.valueOf(configMinute));
+            cal.set(13, 0);
+            cal.set(14, 0);
+            return new Timestamp(cal.getTimeInMillis());
+        } else {
+            throw new Exception("'Horário de execução' com formato inválido");
+        }
+    }
+
+    public static int getValueFieldTimestamp(Timestamp timestamp, int field) throws Exception {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(timestamp.getTime());
+        return calendar.get(field);
+    }
+
+    public static Timestamp getHorarioExec(String horarioExec) throws Exception {
+        return getHorarioExec(horarioExec, 0);
+    }
+
+    public static String getProximoDiaUtil(String inputDate, String formatInput) throws Exception {
+        return getProximoDiaUtil(inputDate, formatInput, (String)null);
+    }
+
+    public static String getProximoDiaUtil(String inputDate, String formatInput, String outPutFormat) throws Exception {
+        SimpleDateFormat sdfOut = null;
+        if (outPutFormat == null) {
+            sdfOut = new SimpleDateFormat("dd/MM/yyyy");
+        } else {
+            sdfOut = new SimpleDateFormat(outPutFormat);
+        }
+
+        return sdfOut.format(getProximoDiaUtil((new SimpleDateFormat(formatInput)).parse(inputDate).getTime()));
+    }
+
+    public static void main(String[] args) throws Exception {
+    }
+
+    public static boolean isWeekend(long dateMillis) throws Exception {
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTimeInMillis(dateMillis);
+        return cal.get(7) == 7 || cal.get(7) == 1;
+    }
+
+    public static long getProximoDiaUtil(long dateMillis) throws Exception {
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTimeInMillis(dateMillis);
+
+        while(cal.get(7) == 7 || cal.get(7) == 1) {
+            cal.add(5, 1);
+        }
+
+        return cal.getTimeInMillis();
+    }
+
+    public static String formataIntervalo(long intervaloEmMilissegundos) {
+        TimeUtils.Intervalo intervalo = new TimeUtils.Intervalo(intervaloEmMilissegundos);
+        return intervalo.getIntervaloFormatadoPorExtenso();
+    }
+
+    public static BigDecimal getQtdHorasNoPeriodo(BigDecimal entrada, BigDecimal saida) throws Exception {
+        try {
+            if (BigDecimal.ZERO.compareTo(saida) < 0 && BigDecimal.ZERO.compareTo(entrada) < 0) {
+                int addDia = 0;
+                if (entrada.compareTo(saida) > 0) {
+                    addDia = 1;
+                }
+
+                BigDecimal hEnt = entrada.divide(BigDecimalUtil.CEM_VALUE);
+                DecimalFormat decimalFormatter = new DecimalFormat("0.00");
+                String horaEnt = decimalFormatter.format(hEnt).substring(0, decimalFormatter.format(hEnt).indexOf(","));
+                String minEnt = decimalFormatter.format(hEnt).substring(decimalFormatter.format(hEnt).toString().indexOf(",") + 1);
+                BigDecimal hSai = saida.divide(BigDecimalUtil.CEM_VALUE);
+                String horaSai = decimalFormatter.format(hSai).substring(0, decimalFormatter.format(hSai).indexOf(","));
+                String minSai = decimalFormatter.format(hSai).substring(decimalFormatter.format(hSai).toString().indexOf(",") + 1);
+                String dataIni = "01/01/1900 " + horaEnt + ":" + minEnt + ":" + "00";
+                Timestamp tIni = buildTimestamp(dataIni);
+                Calendar calEnt = Calendar.getInstance();
+                calEnt.setTimeInMillis(tIni.getTime());
+                String dataFin = "01/01/1900 " + horaSai + ":" + minSai + ":" + "00";
+                Timestamp tFin = buildTimestamp(dataFin);
+                Calendar calSai = Calendar.getInstance();
+                calSai.setTimeInMillis(tFin.getTime());
+                calSai.add(5, addDia);
+                Date dataEnt = calEnt.getTime();
+                Date dataSai = calSai.getTime();
+                int tempoRestante = (int)(dataSai.getTime() - dataEnt.getTime());
+                int horas = tempoRestante / 3600000;
+                int minutos = tempoRestante % 3600000 / '\uea60';
+                minutos %= 60;
+                if (minutos < 0) {
+                    minutos *= -1;
+                }
+
+                String totalDiferencaHoras = null;
+                if (minutos == 0) {
+                    totalDiferencaHoras = horas + "00";
+                } else {
+                    totalDiferencaHoras = horas + String.valueOf(minutos);
+                }
+
+                return BigDecimal.valueOf((long)Integer.parseInt(totalDiferencaHoras));
+            }
+        } catch (Exception var22) {
+            var22.printStackTrace();
+            throw var22;
+        }
+
+        return BigDecimal.ZERO;
+    }
+
+    public static String getDayOfWeek(int dayOfWeek) throws Exception {
+        String result = "";
+        switch(dayOfWeek) {
+        case 1:
+            result = "Domingo";
+            break;
+        case 2:
+            result = "Segunda-Feira";
+            break;
+        case 3:
+            result = "Terça-Feira";
+            break;
+        case 4:
+            result = "Quarta-Feira";
+            break;
+        case 5:
+            result = "Quinta-Feira";
+            break;
+        case 6:
+            result = "Sexta-Feira";
+            break;
+        case 7:
+            result = "Sábado";
+            break;
+        default:
+            throw new Exception("Valor informado para o dia da semana inválido.");
+        }
+
+        return result;
+    }
+
+    public static String getMonthOfYear(int monthOfYear) throws Exception {
+        String result = "";
+        switch(monthOfYear) {
+        case 0:
+            result = "Janeiro";
+            break;
+        case 1:
+            result = "Fevereiro";
+            break;
+        case 2:
+            result = "Março";
+            break;
+        case 3:
+            result = "Abril";
+            break;
+        case 4:
+            result = "Maio";
+            break;
+        case 5:
+            result = "Junho";
+            break;
+        case 6:
+            result = "Julho";
+            break;
+        case 7:
+            result = "Agosto";
+            break;
+        case 8:
+            result = "Setembro";
+            break;
+        case 9:
+            result = "Outubro";
+            break;
+        case 10:
+            result = "Novembro";
+            break;
+        case 11:
+            result = "Dezembro";
+            break;
+        default:
+            throw new Exception("Valor informado para o mês inválido.");
+        }
+
+        return result;
+    }
+
+    static {
+        weekendJump.put(new Integer(7), new int[]{-1, 2});
+        weekendJump.put(new Integer(1), new int[]{-2, 1});
+
+        try {
+            SimpleDateFormat dtFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            zeroDate = dtFormat.parse("30/12/1899 00:00:00").getTime();
+        } catch (ParseException var1) {
+            var1.printStackTrace();
+        }
+
+    }
+
+    public static class Intervalo {
+        private long dias;
+        private long horas;
+        private long minutos;
+        private long segundos;
+        private long milissegundos;
+
+        public Intervalo(long intervaloEmMilissegundos) {
+            this.dias = intervaloEmMilissegundos / 86400000L;
+            intervaloEmMilissegundos %= 86400000L;
+            this.horas = intervaloEmMilissegundos / 3600000L;
+            intervaloEmMilissegundos %= 3600000L;
+            this.minutos = intervaloEmMilissegundos / 60000L;
+            intervaloEmMilissegundos %= 60000L;
+            this.segundos = intervaloEmMilissegundos / 1000L;
+            intervaloEmMilissegundos %= 1000L;
+            this.milissegundos = intervaloEmMilissegundos;
+        }
+
+        public String getIntervaloFormatadoPorExtenso() {
+            StringBuffer intervalo = new StringBuffer();
+            if (this.dias > 0L) {
+                intervalo.append(this.dias).append(" dia").append(this.dias == 1L ? " " : "s ");
+            }
+
+            if (this.horas > 0L) {
+                intervalo.append(this.horas).append(" hora").append(this.horas == 1L ? " " : "s ");
+            }
+
+            if (this.minutos > 0L) {
+                intervalo.append(this.minutos).append(" minuto").append(this.minutos == 1L ? " " : "s ");
+            }
+
+            if (this.segundos > 0L) {
+                intervalo.append(this.segundos).append(" segundo").append(this.segundos == 1L ? " " : "s ");
+            }
+
+            intervalo.append(this.milissegundos).append(" milissegundo").append(this.milissegundos == 1L ? " " : "s ");
+            return intervalo.toString();
+        }
+
+        public long getDias() {
+            return this.dias;
+        }
+
+        public long getHoras() {
+            return this.horas;
+        }
+
+        public long getMinutos() {
+            return this.minutos;
+        }
+
+        public long getSegundos() {
+            return this.segundos;
+        }
+
+        public long getMilissegundos() {
+            return this.milissegundos;
+        }
+    }
+
+    public static enum TipoPeriodo {
+        DIA,
+        SEMANA,
+        DEZENA,
+        QUINZENA,
+        MES,
+        BIMESTRE,
+        TRIMESTRE,
+        QUADRIMESTRE,
+        SEMESTRE,
+        ANO,
+        PERIODO_UNICO;
+
+        private TipoPeriodo() {
+        }
+    }
+
+    public static class Schedule {
+        public static final int EVERY_DAY = 0;
+        public static final int PER_DAY_OF_WEEK = 1;
+        public static final int PER_DAY_OF_MONTH = 2;
+        private List<Integer> minutesAtDay = new ArrayList();
+        private Map<Integer, Object> daysOfMonth = new HashMap();
+        private Map<Integer, Object> daysOfWeek = new HashMap();
+        private Map<Integer, Object> months = new HashMap();
+        private int hours;
+        private int minutes;
+        private int type;
+
+        public Schedule() {
+        }
+
+        public void addDayOfMonth(int dayOfMonth) {
+            this.daysOfMonth.put(new Integer(dayOfMonth), (Object)null);
+        }
+
+        public void addDayOfWeek(int dayOfWeek) {
+            this.daysOfWeek.put(new Integer(dayOfWeek), (Object)null);
+        }
+
+        public void addHourOfDay(int hourWithMinutes) {
+            this.minutesAtDay.add(new Integer(TimeUtils.time2Minutes(hourWithMinutes).intValue()));
+        }
+
+        public void addMonth(int month) {
+            this.months.put(new Integer(month), (Object)null);
+        }
+
+        public Timestamp getNextTimeout(Timestamp baseDateTime) {
+            if (this.minutesAtDay.isEmpty()) {
+                this.minutesAtDay.add(new Integer(this.hours * 60 + this.minutes));
+            }
+
+            Collections.sort(this.minutesAtDay, new Comparator<Integer>() {
+                public int compare(Integer i1, Integer i2) {
+                    return i1.compareTo(i2);
+                }
+            });
+            GregorianCalendar gc = new GregorianCalendar();
+            long today = System.currentTimeMillis();
+            gc.setTimeInMillis(baseDateTime.getTime());
+            int baseMinutes = gc.get(11) * 60 + gc.get(12);
+            if (baseDateTime.getTime() < today) {
+                gc.setTimeInMillis(today);
+            }
+
+            int scheduledMinutes = this.getNextMinuteToRun(baseMinutes);
+            if (scheduledMinutes < 0) {
+                gc.add(5, 1);
+            }
+
+            while(!this.months.isEmpty() && !this.months.containsKey(new Integer(gc.get(2) + 1))) {
+                gc.add(2, 1);
+                gc.set(5, 1);
+                scheduledMinutes = -1;
+            }
+
+            label47:
+            switch(this.type) {
+            case 0:
+            default:
+                break;
+            case 1:
+                while(true) {
+                    if (this.daysOfWeek.isEmpty() || this.daysOfWeek.containsKey(new Integer(gc.get(7)))) {
+                        break label47;
+                    }
+
+                    gc.add(5, 1);
+                    scheduledMinutes = -1;
+                }
+            case 2:
+                if (this.daysOfMonth.containsKey(0)) {
+                    this.daysOfMonth.put(gc.getActualMaximum(5), (Object)null);
+                }
+
+                while(!this.daysOfMonth.isEmpty() && !this.daysOfMonth.containsKey(new Integer(gc.get(5)))) {
+                    gc.add(5, 1);
+                    scheduledMinutes = -1;
+                }
+            }
+
+            if (scheduledMinutes < 0) {
+                scheduledMinutes = this.getNextMinuteToRun(-1);
+            }
+
+            gc.set(11, scheduledMinutes / 60);
+            gc.set(12, scheduledMinutes % 60);
+            gc.set(13, 0);
+            return new Timestamp(gc.getTimeInMillis());
+        }
+
+        public void setHoras(int horas) {
+            this.hours = horas;
+        }
+
+        public void setMinutos(int minutos) {
+            this.minutes = minutos;
+        }
+
+        public void setPeriod(int startHour, int endHour, int hourPeriod) {
+            int startAsMinutes = TimeUtils.time2Minutes(startHour).intValue();
+            int endAsMinutes = TimeUtils.time2Minutes(endHour).intValue();
+            int periodAsMinutes = TimeUtils.time2Minutes(hourPeriod).intValue();
+            int next = startAsMinutes;
+
+            do {
+                this.minutesAtDay.add(new Integer(next));
+                next += periodAsMinutes;
+            } while(next <= endAsMinutes);
+
+        }
+
+        public void setType(int tipoDias) {
+            this.type = tipoDias;
+        }
+
+        private int getNextMinuteToRun(int currentMinute) {
+            Iterator i$ = this.minutesAtDay.iterator();
+
+            Integer min;
+            do {
+                if (!i$.hasNext()) {
+                    return -1;
+                }
+
+                min = (Integer)i$.next();
+            } while(min <= currentMinute);
+
+            return min;
+        }
+    }
+}

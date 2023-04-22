@@ -1,0 +1,47 @@
+Três principios do Devops:
+
+1 º Maneira do fluxo.
+
+1 -> Focado no fluxo de valor tecnológico o objetivo é a analise e otimização dos processos da esquerda para a direita (Otimizar levantamento de requisitos, desenvolvimento, testes, e implantação).
+
+1.1 -> Tornar visível e identificar todo o trabalho (As vezes temos a impressão de não render nada no dia, por isso temos que mapear para tornar todas as etapas visíveis).
+
+1.2 -> Limitar o Work in progress (Todo o processo de execução de uma tarefa até ela ser entregue).
+
+1.3 -> Trabalhar baseado em pequenas entregas.(Pegar o trabalho grande, quebrar em pequenas tarefas e executar).
+
+1.4 -> Tempo de execução X Tempo de processamento.
+
+1.5 -> Tempo de execução é o tempo de entrega percebido pelo cliente.
+
+1.6 -> Tempo de processamento é o tempo que é pegado desde quando se pega a tarefa no to-do até chegar no done.
+
+1.7 -> Reduzir o número de transferências.
+
+1.8 -> Identificar e eliminar gargalos no fluxo de valor.
+
+1.9 -> Eliminar o disperdicio  no fluxo de valor.
+
+
+2 º Maneira do feedback.
+
+2 -> Foca em entregar feedback dos estágios do fluxo.
+
+2.1 -> Utiliza recursos de observabilidade para coleta e exibição de dados do fluxo.
+
+2.2 -> Desenvolvimento baseado em hipóteses e testes.
+
+2.3 -> Identificar e resolver problemas logo no início (Problema mais barato).
+
+2.4 -> Aglomerar problemas para construir conhecimento.
+	
+
+3 º Maneira do aprendizado e da experimentação.
+
+3 -> Cultura organizacional baseada em uma gestão sem medo ou culpa.
+
+3.1 -> Melhoria do trabalho diário.
+
+3.2 -> Transformar descobertas locais em globais (Difundir conhecimento).
+
+3.3 -> Cultura baseada no aprendizado.

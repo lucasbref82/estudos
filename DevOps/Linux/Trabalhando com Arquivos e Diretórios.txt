@@ -1,0 +1,15 @@
+Trabalhando com arquivos e diretórios:
+	pwd: Mostra o diretório que está no exato momento.
+	cd: Serve para navegar entre os diretórios.
+	ls: Lista os arquivos e diretórios.
+	mkdir: Cria diretórios. -p (Cria pastas e subpastas)
+	rm: Remove arquivos. -rf (Remove tudo que está dentro da pasta recursivo).
+	mv: Move um arquivo de uma pasta para outra ou renomeia o arquivo.
+	cp: Cria uma copia do arquivo.
+	touch: cria um arquivo, e altera a data e hora de manipulação do arquivo.
+	cat: Visualiza o conteudo do arquivo.
+	head: Mostra só o conteudo inicial -n (Limita mais ainda o arquivo)
+	tail: Mostra só o conteudo final -n (Limita mais ainda o arquivo)
+	more: Mostra o arquivo e também a porcentagem restante.
+	less: Mostra o arquivo e também a porcentagem restante.
+	grep: Busca um uma palavra no arquivo. -n (Mostra a linha).
