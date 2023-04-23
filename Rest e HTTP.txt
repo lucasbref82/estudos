@@ -21,19 +21,43 @@ Puristas X Pragmáticos:
 	Pragmáticos: Seguem as constraints com excessões, para tornar o uso mais simples.
 
 Protocolo HTTP: 
-			  Requisição
+			Requisição
 	Cliente -------------> Servidor
-	Cliente	<------------- Servidor
-			  Resposta
+	Cliente <------------- Servidor
+			Resposta
 	
-	GET /users/lucasbref82/respos
+	GET /users/lucasbref82/repos
 	Host: api.github.com
 	Accept: application/json
 	User-Agent: lucasbref82
 	
-URI X URL:																							URI
+URI X URL:															      URI					
 	URI: Quando modelamos nossa API pensamos em URI para localizarmos um recurso. (localhost:8080/produtos)
-																	URL
+														  URL
 	URL: É uma URI, porém identifica também onde o recurso está. (localhost:8080/produtos)
+
+Idempotente X Não Idempotente:
+	GET: É um método idempotente, pode ser aplicadas várias vezes sem que o valor do resultado se altere após a aplicação inicial.
+	POST: Não é idempotente, pois cada vez que a operação for aplicada o resultado será alterado (Irá criar um novo objeto).
+	PUT: O objeto tem que ser alterado como um todo, caso não passemos alguma propriedade ela será considerada como nula. (Pode ser usado para criar um 	novo recurso).
+	PATCH: É um método idempotente, o estado da aplicação continua o mesmo (Serve para alterar parte de um recurso).
+	DELETE: É um metodo idempotente, o estado da aplicação continua o mesmo (Serve para deletar um recurso).
+	HEAD: Serve para buscar somente os cabeçalhos das requisições.
+	OPTIONS: Serve para buscar as opções de métodos disponiveis no recurso.
+
+Status HTTP:
+	Status de sucesso:
+		200: Ok
+		201: Created
+		204: No Content
+	Status de redirecionamento:
+		301: Moved permanently (Quando é retornado, um cabeçalho location é retornado para indicar o novo local).
+		302: Found (Quando é retornado, um cabeçalho location é retornado para indicar o novo local).
+	Status de erro por parte do client:
+		400: Bad Request
+		401: Unauthorized (Significa que não está autenticado).
+		403: Forbbiden (Entendeu a requisição, porém não está autorizado)
+		404: Not Found
+		406: Not Acceptable (Não pode retornar o tipo de representação especificado na requisição).
 	
 			  

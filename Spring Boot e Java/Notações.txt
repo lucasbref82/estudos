@@ -44,6 +44,12 @@ Loombok
 @EqualsAndHashCode = Deixa implicito todos os Equals e Hash code da classe.
 @Data = Deixa implicito todos os getters setters hascode equals e toString da classe.
 
+Jackson
+@JacksonXmlRootElement(localName = "NOME_DESEJADO") =  Serve para alterar o elemento raiz da representação do XML.
+@JacksonXmlProperty(localName = "NOME_DESEJADO") = Altera o nome da propriedade no XML.
+@JacksonXmlElementWrapper(useWrapping = false) = Desabilita o embrulho da propriedade no XML.
+
+
 Entidades
 @Entity = Anota que a classe é uma entidade.
 Atributos entidades
