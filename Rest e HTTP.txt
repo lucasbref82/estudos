@@ -1,0 +1,39 @@
+Constraints REST:
+	Cliente-servidor:
+	Stateless: Servidor não guarda histórico de uso.
+	Cache: Exemplo lista de cidades, não altera constantemente então podemos guardar em cache para diminuir o 
+	número de hits no servidor.
+	Interface Uniforme: Conjunto de operações bem definidas do sistema.
+	Sistema em camadas: Possibilidade entre o cliente e o servidor terem outros servidores intermediarios.
+	Codigo sob demanda: Servidor pode enviar como resposta algum código para ser executado no cliente. 
+	(Pouco usado).
+
+REST e RESTful:
+	Rest: É o estilo arquitetural que possui as constraints rest é a especificação.
+	RESTful: É uma API desenvolvida com as conformidades REST (Segue todos os padrões religiosamente).
+	
+Recursos REST: A forma do cliente interagir com o servidor é através de um recurso (Podemos pensar em orientação
+	a objetos como se um recurso fosse um objeto ou uma coleção deles).
+	
+	
+Puristas X Pragmáticos:
+	Puristas: Defendem que REST api devem seguir todas as constraints sem excessão.
+	Pragmáticos: Seguem as constraints com excessões, para tornar o uso mais simples.
+
+Protocolo HTTP: 
+			  Requisição
+	Cliente -------------> Servidor
+	Cliente	<------------- Servidor
+			  Resposta
+	
+	GET /users/lucasbref82/respos
+	Host: api.github.com
+	Accept: application/json
+	User-Agent: lucasbref82
+	
+URI X URL:																							URI
+	URI: Quando modelamos nossa API pensamos em URI para localizarmos um recurso. (localhost:8080/produtos)
+																	URL
+	URL: É uma URI, porém identifica também onde o recurso está. (localhost:8080/produtos)
+	
+			  
