@@ -59,5 +59,10 @@ Status HTTP:
 		403: Forbbiden (Entendeu a requisição, porém não está autorizado)
 		404: Not Found
 		406: Not Acceptable (Não pode retornar o tipo de representação especificado na requisição).
+	Status de erro do servidor:
+		500: Internal Server Error
+		503: Service Unavaible (Em manutenção ou sobrecarregado).
+		
+		
 	
 			  
