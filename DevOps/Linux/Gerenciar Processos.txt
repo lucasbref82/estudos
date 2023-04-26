@@ -1,0 +1,15 @@
+Listar Processos:
+	Processos do meu usuário: ps
+	Processos do meu usuário (Incluindo os que rodam em background): ps -x
+	Processos de todos usuários: ps -a
+	Processos de todos usuários (Incluindo os que rodam em background): ps -ax
+	Processos de todos usuários mostrando o nome do usuário (Incluindo os que rodam em background): ps -axu
+
+Matar Processos:
+	kill <PID>
+
+Ver processos em interface:
+	Simples: top
+	Detalhados: htop
+
+	

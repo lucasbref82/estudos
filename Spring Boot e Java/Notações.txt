@@ -2,13 +2,13 @@ Anotações importantes:
 @RestController = Define que a classe é uma controladora REST.
 @ResponseBody = Define que  a função irá retornar uma resposta à requisição.
 @RequestMapping("/cozinhas") = Definindo rota do controlador
-@RequestMapping(value = "/estados", produces = MediaType.APPLICATION_JSON_VALUE) = Define que todas as classes do controlador só retornam JSON
-@GetMapping ou @GetMappiing("/rota_desejada") = Define que o método retorna um verbo GET                    
+@RequestMapping(value = "/estados", produces = MediaType.APPLICATION_JSON_VALUE) = Define que todas os métodos do controlador só produzem JSON.
+@GetMapping ou @GetMappiing("/rota_desejada") = Define que o método retorna um verbo GET.              
 @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE) = Definindo que a rota só retorna o tipo JSON, MediaType é um ENUM, caso queira passar mais de um tipo:
 @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 
 Injeção de depêndencia:
-@Autowired = Serve para injetar uma classe sem precisar instanciar ou fazer injeção de depêndencia pelo construtor.
+@Autowired = Ela é usada em conjunto com a inversão de controle (IoC) e a injeção de dependência, onde o framework Spring gerencia as dependências entre as classes. Ao usar a anotação @Autowired, o Spring procura por uma instância da classe desejada no contexto da aplicação e a injeta automaticamente na classe onde a anotação está presente.
 
 Desambiguação de BEANS
 @Primary = Caso tenha dois beans implementados por uma só interface, com essa anotaçãoo conseguimos definir quem terá prioridade na hora de ser injetado.
@@ -21,15 +21,15 @@ Ciclo de vida dos bens
 
 
 Sobre listener
-@EventListener = Definir que o método é um listener(ouvidor) que será chamado através de um evento.
+@EventListener = É usada para indicar que um método deve ser registrado como um ouvinte de eventos em um aplicativo. Quando um evento é publicado pelo aplicativo, todos os métodos anotados com @EventListener que correspondem ao tipo de evento são executados.
 
 Recuperar variável do application.properties
 @Value("${nome_da_propriedade}")
 private String nome_da_propriedade;
 
 Sobre JPA 
-@PersistenceContext = Define que a instancia da classe EntityManager é um contexto JPA de persistência.
-@Transactional = Define que o método vai ser executado dentro de uma transação.
+@PersistenceContext = É usado injetar o EntityManager diretamente no seu código sem precisar criar uma nova instância a cada vez que precisar acessar o banco de dados. Em resumo, essa anotação é usada para gerenciar o ciclo de vida das entidades JPA em seu aplicativo e simplificar o acesso ao banco de dados.
+@Transactional = É usada para indicar que um método ou classe deve ser executado dentro de uma transação. Transações são usadas para garantir que um conjunto de operações de banco de dados seja executado como uma unidade atômica - ou seja, ou todas as operações são executadas com sucesso, ou nenhuma delas é executada.
 
 
 Hibernate
@@ -52,11 +52,12 @@ Jackson
 
 Entidades
 @Entity = Anota que a classe é uma entidade.
-Atributos entidades
-@Id = Anota que é uma primary key
-@GeneratedValue(strategy = GenerationType.IDENTITY) = Anota que a primeira key vai ser auto-incremento
+
+Atributos entidades:
+@Id = Anota que é uma primary key.
+@GeneratedValue(strategy = GenerationType.IDENTITY) = Anota que a primeira key vai ser auto-incremento.
 @ManyToOne = Relacionamento muitos para um de tabela.
-@JoinColumn(name = "cozinha_codigo") = Dizer que o atributo é uma referencia a uma outra entidade e nomear ele.
-@Column(nullable = false) ||  @JoinColum(nullable = false) = Quer dizer que a coluna não aceita nulo
+@JoinColumn(name = "entidade_id") = Dizer que o atributo é uma referencia a uma outra entidade e nomear ele.
+@Column(nullable = false) ||  @JoinColum(nullable = false) = Quer dizer que a coluna não aceita nulo.
 @JsonProperty("nome_desejado") = Altera o nome na representação do JSON.
 @JsonIgnore = Não mostra o atributo na representação do JSON.

@@ -63,6 +63,14 @@ Status HTTP:
 		500: Internal Server Error
 		503: Service Unavaible (Em manutenção ou sobrecarregado).
 		
-		
+RMM: 
+	Nível 0 - POX (Plain Old XML): A mesma URL faz várias operações de vários recursos.
+	Nível 1 - Recursos: Já existem os recursos separadamente.
+	Nível 2 - Verbos HTTP: Já usamos os verbos HTTP e as respostas para especificar cada ação nos recursos.
+	Nível 3 - HATEOAS: O princípio HATEOAS afirma que a representação de um recurso em um serviço web deve 
+	incluir links para outros recursos relacionados, permitindo assim a descoberta dinâmica da funcionalidade 
+	do serviço. Em outras palavras, um cliente que está interagindo com um serviço RESTful deve ser capaz 
+	de descobrir o que pode fazer a partir da representação de um recurso, em vez de depender de documentação 
+	externa ou conhecimento prévio sobre a API.
 	
 			  

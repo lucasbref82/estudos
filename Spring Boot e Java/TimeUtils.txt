@@ -1,11 +1,5 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
+package br.com.spring-food.utils;
 
-package com.sankhya.util;
-
-import br.com.sankhya.MethodInfo.MethodInfo;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
@@ -256,12 +250,6 @@ public class TimeUtils {
         return toTimestamp(dfDate.format(date).concat(" ").concat(dfTime.format(time)), "dd/MM/yyyy HH:mm:ss");
     }
 
-    @MethodInfo(
-        name = "",
-        description = "Retorna o mes por extenso.",
-        arguments = {""},
-        category = "Outra"
-    )
     public static String mesext(Timestamp date) {
         return (new SimpleDateFormat("MMMMMMMMMM")).format(date);
     }
