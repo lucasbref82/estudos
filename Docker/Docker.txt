@@ -1,3 +1,48 @@
+Container serve para armazenar isoladamente cada serviço.
+
+Vantages -> Isolamento de processos.
+Gerenciamento de conflitos entre aplicações.
+Segunraça das aplicações.
+Idenpotência e portabilidade de execuções de processos
+
+VMs -> Infraestrutura -> Virtualização: HyperView, Virtual Box VMWare -> Infra Virtual -> Vários SO'S, um para cada aplicação.
+Containers ->  Infraestrutura -> SO -> Docker -> Aplicações
+
+Arquitetura do docker:
+Docker client -> É o elemento responsavel por gerenciar a comunicação com o docker deamon.
+Docker Deamon/ Docker Horst -> Gerencia os containers e as imagens docker (Gerencia qualquer objeto relacionado ao docker, volumes, network)
+Registry -> Repositório de imagens de container docker. (Mais famoso é o docker hub)
+
+Primeiros passos.
+Executar um container -> Docker container run <<imagem>> -> O client comunica com o Docker deamon para criar um container, como não existe no deamon busca no docker hub -> Baixa a imagem e executa no Docker deamon.
+
+Comandos para baixar imagens:
+docker container run <<imagem>>
+docker container --name <<nome desejado para o container>> run <<imagem>>
+docker container --name <<nome desejado para o container>> --rm (Já roda e excluir o próprio container) run <<imagem>>
+
+Rodar container em modo interativo:
+docker container run --name ubuntu -it ubunt bin/bash
+
+Rodar container em background e com port bind:
+docker container run -d <<background>> -p <<port bind>> <<imagem>>
+
+Rodar container com variáveis: 
+docker container run -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=user -e MONGO_INITDB_ROOT_PASSWORD=password mongo
+
+Remover container mesmo quando estiver rodando.
+docker container rm -f <<nome container>>
+
+Inspecionar container
+docker container inspect <<nome container>>
+
+Ver logs do container, utilize -f para acompanhar em tempo real, -t me da data e hora.
+docker logs <id_ou_nome>
+docker logs -f <id_ou_nome>
+docker logs -t <id_ou_nome>
+
+
+
 Comandos para gerenciar imagens
 
 Lista as imagens locais disponíveis no host
@@ -77,14 +122,6 @@ Remover um container
 
 
 $ docker rm <id_ou_nome>
-
-
-
-Ver logs do container, utilize -f para acompanhar em tempo real
-
-
-$ docker logs <id_ou_nome>
-
 
 
 Exibe informações de uso de CPU, memória e rede.
