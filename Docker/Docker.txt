@@ -41,8 +41,23 @@ docker logs <id_ou_nome>
 docker logs -f <id_ou_nome>
 docker logs -t <id_ou_nome>
 
+Criar imagem a partir de um commit:
 
+docker commit <<id-container>> <<nome-imagem>>
 
+Criar imagem a partir de um docker file.
+Receita de bolo.
+
+Arquivo Dockerfile
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install curl --yes
+
+Para construir a imagem a partir do docker file.
+
+docker image build -t <<nome_imagem>> . <<local onde o docker file está>>
+
+Imagens são templates para criar containers.
 Comandos para gerenciar imagens
 
 Lista as imagens locais disponíveis no host
