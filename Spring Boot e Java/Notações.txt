@@ -31,6 +31,8 @@ Sobre JPA
 @PersistenceContext = É usado injetar o EntityManager diretamente no seu código sem precisar criar uma nova instância a cada vez que precisar acessar o banco de dados. Em resumo, essa anotação é usada para gerenciar o ciclo de vida das entidades JPA em seu aplicativo e simplificar o acesso ao banco de dados.
 @Transactional = É usada para indicar que um método ou classe deve ser executado dentro de uma transação. Transações são usadas para garantir que um conjunto de operações de banco de dados seja executado como uma unidade atômica - ou seja, ou todas as operações são executadas com sucesso, ou nenhuma delas é executada.
 
+@NoRepositoryBean = É usada para marcar uma interface no Spring Data JPA como uma interface que não deve ser considerada como um repositório gerenciado automaticamente pelo Spring Data. Em outras palavras, ela indica que a interface não deve ser usada para criar um bean de repositório automaticamente, mesmo que ela estenda a interface JpaRepository ou outra interface de repositório do Spring Data JPA.
+
 
 Hibernate
 @UpdateTimestamp = Define que o campo será atualizado toda ver que um recurso irá ser atualizado.
@@ -61,3 +63,10 @@ Atributos entidades:
 @Column(nullable = false) ||  @JoinColum(nullable = false) = Quer dizer que a coluna não aceita nulo.
 @JsonProperty("nome_desejado") = Altera o nome na representação do JSON.
 @JsonIgnore = Não mostra o atributo na representação do JSON.
+
+Handler
+@ControllerAdvice = Essa anotação é usada para criar componentes globais que podem ser aplicados a todos os controladores (controllers) ou a um subconjunto específico deles.
+
+@ExceptionHandler = A anotação @ExceptionHandler é usada em métodos de uma classe anotada com @ControllerAdvice no contexto do Spring MVC. Ela tem a finalidade de lidar com exceções específicas lançadas durante a execução de métodos em controladores (controllers) em um aplicativo Spring.
+
+

@@ -1,0 +1,8 @@
+Processo git flow
+
+git flow init -d
+git flow release start 0.1.0
+git flow release publish 0.1.0
+git flow release finish 0.1.0
+git push --all
+git push --tags

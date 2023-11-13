@@ -1,0 +1,5 @@
+Tags html:
+<!DOCTYPE html>
+<html></html> -> Raiz onde se inicia o nosso documento HTML.
+<head></head> -> Informações que será dada ao nosso broswer.
+<body></body> -> Onde iremos colocar nosso conteudo.
