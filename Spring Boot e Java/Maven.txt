@@ -10,3 +10,9 @@ mvnw package = Faz o build do projeto, executa os teste e gera o arquivo .jar
 
 Comandos usados com o .JAR
 java -jar "Nome do arquivo" = Executar o  FAT JAR ou JAR Gordo para realizar o Deploy (Implantação)
+
+Ignorar testes tanto no mvn package, mvn clean package e mvn test.
+O Teste só irá rodar quando rodar o comando: mvn verify
+<plugin>
+	<artifactId>maven-failsafe-plugin</artifactId>
+</plugin>
