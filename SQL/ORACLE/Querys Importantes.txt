@@ -1,0 +1,26 @@
+Verificar os registros que estão inconsistentes quando a chave mãe não é localizada
+
+SELECT *
+FROM TABELA_FILHA t
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM TABELA_MAE m
+    WHERE m.CAMPO = t.CAMPO
+);
+
+
+Verificar de qual tabela é uma constraint
+
+SELECT table_name
+FROM all_constraints
+WHERE constraint_name = 'NOME_CONSTRAINT';
+
+Desabilitar validação de uma constraint
+
+ALTER TABLE TABELA_DESEJADA
+DISABLE CONSTRAINT NOME_CONSTRAINT
+
+Habilitar validação de uma constraint
+
+ALTER TABLE TABELA_DESEJADA
+ENABLE CONSTRAINT NOME_CONSTRAINT

@@ -1,0 +1,6 @@
+Query para verificar se existem valores duplicados de uma coluna no banco:
+
+SELECT ID_TIPO_ENTREGA , COUNT(*)
+FROM TIPOS_ENTREGAS
+GROUP BY ID_TIPO_ENTREGA	
+HAVING COUNT(*) > 1;
