@@ -1,0 +1,15 @@
+Maneiras de injetar dependência no Spring:
+
+Primeira via construtor.
+Segunda com @Autowired.
+
+Diferenças entre
+@Controller:
+Usado para definir controladores que retornam vistas.
+Necessita de @ResponseBody para retornar dados JSON/XML diretamente.
+@RestController:
+Usado para definir controladores de APIs REST.
+Combina @Controller e @ResponseBody, retornando dados JSON/XML diretamente sem a necessidade de @ResponseBody.
+
+
+
