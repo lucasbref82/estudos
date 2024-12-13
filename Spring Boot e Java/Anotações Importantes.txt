@@ -1,15 +1,59 @@
 Maneiras de injetar dependência no Spring:
 
 Primeira via construtor.
+Segundo via método setter.
 Segunda com @Autowired.
+Dependencia adicional com @Autowired(required = false)
+
+Maneiras de definir beans em no Spring:
+@Component
+@Configuration (Tem a funcionalidade de definir beans, geralmente se configura o bean com o @Bean)
+@Bean (Marca o método como um Bean provider que será gerenciado pelo Spring)
 
 Diferenças entre
 @Controller:
-Usado para definir controladores que retornam vistas.
+Usado para definir controladores que retornam views
 Necessita de @ResponseBody para retornar dados JSON/XML diretamente.
 @RestController:
 Usado para definir controladores de APIs REST.
 Combina @Controller e @ResponseBody, retornando dados JSON/XML diretamente sem a necessidade de @ResponseBody.
+
+Desambiguação de Beans.
+Define que o Bean é o principal quando tivermos Beans com o mesmo nome @Primary.
+Qualifier é uma notação para qualificar nosso Bean @Qualifier("email")
+
+@Profile("prod")
+Algumas rotinas só podem rodam com certos perfis.
+
+Executa algo na inicialização do Bean
+@PostConstruct
+public void init() {
+
+}
+
+Executa algo na pré destruição do Bean
+@PreDestroy
+public void destroy() {
+
+}
+
+é possível fazer também usando o InitializingBean e o DisposableBean.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

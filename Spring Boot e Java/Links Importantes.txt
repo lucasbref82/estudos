@@ -1,0 +1,5 @@
+Properties que podemos usar no spring.
+https://docs.spring.io/spring-boot/appendix/application-properties/index.html#appendix.application-properties.server
+
+Keywords JPA.
+https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
