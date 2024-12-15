@@ -39,6 +39,24 @@ public void destroy() {
 
 é possível fazer também usando o InitializingBean e o DisposableBean.
 
+Alterando propriedade via comando.
+java -jar .\delivery-0.0.1-SNAPSHOT.jar --server.port=9090
+
+Alterando perfil via comando.
+java -jar .\delivery-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+
+Pega variável de ambiente.
+@Value("{notificador.email}")
+
+@Component
+@ConfigurationProperties("notificador.email")
+public class NorificadorConfiguration {
+	
+}
+
+
+
+
 
 
 

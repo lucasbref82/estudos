@@ -3,3 +3,6 @@ https://docs.spring.io/spring-boot/appendix/application-properties/index.html#ap
 
 Keywords JPA.
 https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
+
+Tudo sobre o JPA
+https://blog.algaworks.com/tutorial-jpa/
