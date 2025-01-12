@@ -1,0 +1,53 @@
+📌 Validações Padrão
+
+@NotNull – Garante que o valor não seja null.
+
+@NotBlank – Garante que a string não seja null, vazia ou apenas espaços.
+
+@NotEmpty – Garante que a string, coleção, mapa ou array não seja null ou vazio.
+
+@Size(min, max) – Define limites mínimo e máximo para tamanho de strings, coleções ou arrays.
+
+@Min e @Max – Restringe o valor mínimo e máximo de números inteiros.
+
+@Positive e @PositiveOrZero – Garante que o valor seja positivo ou positivo/zero.
+
+@Negative e @NegativeOrZero – Garante que o valor seja negativo ou negativo/zero.
+
+@DecimalMin e @DecimalMax – Define limites mínimo e máximo para números decimais.
+
+@Digits(integer, fraction) – Restringe a quantidade de dígitos inteiros e decimais.
+
+@Email – Valida se a string é um e-mail válido.
+
+@Pattern(regexp) – Valida o padrão de uma string com expressão regular.
+
+@Future e @FutureOrPresent – Garante que a data seja no futuro ou no presente.
+
+@Past e @PastOrPresent – Garante que a data seja no passado ou no presente.
+
+@AssertTrue e @AssertFalse – Valida se o valor booleano é true ou false.
+
+@Null – Garante que o valor seja null.
+
+@Valid – Aplica validação em objetos aninhados.
+
+📌 Validações Personalizadas
+
+@Constraint – Permite criar validações personalizadas.
+
+Validator – Interface para implementar regras de validação customizadas.
+
+📌 Grupos de Validação
+Definição de Grupos – Organiza validações em diferentes contextos.
+Execução de Grupos – Permite validar diferentes regras conforme o grupo especificado.
+
+
+📌 Mensagens Personalizadas
+Customização Direta – Personaliza a mensagem diretamente na anotação.
+Arquivo de Propriedades – Define mensagens externas usando arquivos .properties.
+
+
+📌 Integração com Frameworks
+Spring Boot – Integração automática com @Valid e @Validated.
+Hibernate Validator – Implementação padrão do Bean Validation.
