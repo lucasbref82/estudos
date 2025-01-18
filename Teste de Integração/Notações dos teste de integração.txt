@@ -1,0 +1,29 @@
+Nivel de classe.
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+Sobe o contexto completo da aplicação para testes e inicia o servidor em uma porta aleatória para testes de integração.
+
+@AutoConfigureMockMvc
+Configura o MockMvc para simular requisições HTTP sem subir o servidor, usado para testar endpoints REST de forma rápida.
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+Cria uma única instância da classe de teste, permite métodos @BeforeAll e @AfterAll não estáticos e compartilhamento de dados entre testes.
+
+Nível de método.
+
+
+@LocalServerPort
+private int port
+
+-> Recupera a porta em que o tomcat da o start na aplicação.
+
+@BeforeAll
+public void setUp() {
+   RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+   RestAssured.port = port;
+   RestAssured.basePath = "/v1/cozinhas";
+}
+
+-> Faz configurações básicas antes de iniciar a classe de teste evitando assim, códigos repetidos.
+-> Serve também para preparar o ambiente antes de testar.
+

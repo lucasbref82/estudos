@@ -1,0 +1,80 @@
+package br.com.delivery;
+
+import br.com.delivery.v1.domain.entity.Cozinha;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+
+import static io.restassured.RestAssured.given;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class CozinhaIntegrationTests {
+
+    @LocalServerPort
+    private int port;
+
+    @Test
+    void deveRetornar200ComCozinhasExistentes() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+            given()
+                .basePath("/v1/cozinhas")
+                .port(port)
+                .accept(ContentType.JSON)
+            .when()
+                .get()
+            .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("sucesso", Matchers.is(true))
+                .body("resultado.size()", Matchers.is(4))
+                .body("resultado.nome", Matchers.hasItems("Brasileira", "Indiana"));
+    }
+
+    @Test
+    void deveRetornar404QuandoConsultarUmaCozinhaInexistente() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+            given()
+                .basePath("/v1/cozinhas/999")
+                .port(port)
+                .accept(ContentType.JSON)
+            .when()
+                .get()
+            .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    void deveRetornar409QuandoExcluirUmaCozinhaEmUso() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+            given()
+                .basePath("/v1/cozinhas/1")
+                .port(port)
+                .accept(ContentType.JSON)
+            .when()
+                .delete()
+            .then()
+                .statusCode(HttpStatus.CONFLICT.value());
+    }
+
+    @Test
+    void deveRetornar400QuandoCadastrarUmaCozinhaSemNome() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+            given()
+                .basePath("/v1/cozinhas")
+                .port(port)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(Cozinha.builder().nome(null).build())
+            .when()
+                .post()
+            .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+}
