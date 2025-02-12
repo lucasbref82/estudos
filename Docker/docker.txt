@@ -1,0 +1,4 @@
+Executar container:
+1 - docker container run hello-work
+1.1 - Primeiro verifica se existe a imagem  local, como não tinha baixou a imagem e executou o container
+1.2 - Executou o comando no docker client se conectou com o docker deamon (host) verificou se tinha a imagem local, no caso não tinha buscou no docker registry
