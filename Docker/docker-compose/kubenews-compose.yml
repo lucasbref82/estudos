@@ -1,0 +1,18 @@
+services:
+  kubenews:
+    image: lucasbref82/kubenews:${KUBE_NEWS_TAG:-latest}
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    container_name: kubenews_container
+    ports:
+      - 8080:8080
+    networks: 
+      - geral_network
+    environment:
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-kubenews}
+      DB_USERNAME: ${POSTGRES_USER:-Pg123}
+      DB_DATABASE: ${POSTGRES_DB:-kubenews}
+      DB_HOST: postgre_container
+    depends_on:
+      - posgre

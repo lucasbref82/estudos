@@ -1,0 +1,3 @@
+Cluster kubenetes -> São vários máquinas que formar cluster.
+Control plane -> É o maestro o que administra os container
+Worker node -> São os músico ou seja, quem executa.

@@ -1,0 +1,19 @@
+docker container run -d -p 8080:3000 \
+  --health-cmd "curl -f http://localhost:3000/health" \
+  --health-timeout 5s \
+  --health-retries 3 \
+  --health-interval 10s \
+  --health-start-period 30s \
+  lucasbref82/simulador-do-caos:v1
+
+
+Parâmetro Explicação
+docker container run	Inicia um novo container baseado na imagem especificada.
+-d	Roda o container em modo detached (em background).
+-p 8080:3000	Mapeia a porta 3000 do container para a porta 8080 do host.
+--health-cmd "curl -f http://localhost:3000/health"	Define um health check, que verifica se a API no container responde no endpoint /health. O curl -f faz a requisição e retorna erro se o status não for 2xx ou 3xx.
+--health-timeout 5s	Define um timeout de 5 segundos para a verificação do health check. Se a resposta demorar mais que isso, o check falha.
+--health-retries 3	Se o health check falhar 3 vezes consecutivas, o Docker marca o container como unhealthy.
+--health-interval 10s	O health check será executado a cada 10 segundos.
+--health-start-period 30s	Aguarda 30 segundos após iniciar o container antes de começar a checagem de saúde (tempo para o serviço inicializar corretamente).
+lucasbref82/simulador-do-caos:v1	Nome da imagem usada para rodar o container.

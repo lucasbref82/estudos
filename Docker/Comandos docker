@@ -1,0 +1,53 @@
+docker container run nginx                          # Verifica se a imagem existe no Docker Daemon, senão baixa do Docker Hub e executa.
+docker container ls                                 # Lista todos os containers ativos.
+docker container ls -a                              # Lista todos os containers, independentemente do status.
+docker container run --name meu_container nginx     # Cria um container com um nome específico.
+docker container run -it ubuntu /bin/bash          # Cria um container com a imagem e entra no modo interativo.
+docker container run --rm -it ubuntu /bin/bash     # Cria, entra no modo interativo e remove o container ao sair.
+docker container run -d nginx                      # Executa o container no background (modo detached).
+docker container run -d -p 8080:80 nginx           # Executa o container no background e mapeia portas (host:container).
+docker container ls -qa                            # Lista apenas os IDs dos containers.
+docker container rm -f $(docker container ls -qa)  # Remove todos os containers de uma vez.
+docker container run -p 3306:3306 -d --name meumysql -e MYSQL_ROOT_PASSWORD="acesso_root" -e MYSQL_DATABASE=devops -e MYSQL_USER=devops -e MYSQL_PASSWORD=devops mysql # Passado parametros obrigatórios para criação do container com a imagem do MYSQL.
+docker container cp . 70cf4894a2dd:/app            # O comando copia todos os arquivos do diretório atual para dentro do container Docker no caminho /app, permitindo atualizar arquivos sem recriar o container.
+docker container run -it --mount type=bind,source="$(pwd)/aula_vol",target=/app ubuntu /bin/bash # Executa o container em modo iterativo montando um volume do tipo bindm especificando o tipo origem destino.
+
+
+docker container run --volumes-from 23a4fd1c2f6d --rm -v $(pwd):/backup ubuntu:22.04 tar cvf /backup/backup_vol.tar /app #Executa o comando e faz backup do diretório /app de um container em um arquivo .tar no diretório atual do host
+docker container run -v $(pwd):/backup -v novo_volume:/app ubuntu:22.04 tar xvf /backup/backup_vol.tar  Excecuta o comando e restaura esse backup para um novo volume no diretório /app de outro container.
+
+
+docker container run -d -p 5432:5432 --name kubenew_db -e POSTGRES_PASSWORD=Pg#123 -e POSTGRES_USER=kubedevnews -e POSTGRES_DB=kubedevnews --network kubenews_net -v kubenews_vol:/var/lib/postgresql/data postgres:12.17
+
+Acima rodando um container completo com volume e network.
+
+-------------------------------------------------------------------------------------------------------------
+docker exec -it fe1 /bin/bash                      # Acessa um container já existente em modo interativo.
+
+-------------------------------------------------------------------------------------------------------------
+docker commit 05772b82fcc4 node_copy               # Cria uma imagem com base em um container especifico.
+
+-------------------------------------------------------------------------------------------------------------	
+docker run -d -p 8080:8080 node_copy node /app/server.js # Roda a imagem criada pelo commit, após o nome da imagem roda um comando especifico.
+
+-------------------------------------------------------------------------------------------------------------
+docker image history node_copy                     # Vê o histórico de construção imagem.
+docker image inspect node_copy			   # Mostra os detalhes da imagem em json.
+docker image inspect node_copy > imagem.json       # Cria a saída do comando em uma imagem.
+
+-------------------------------------------------------------------------------------------------------------
+docker build -t ubuntu_curl -f Dockerfile .         # Constroi a imagem com base no dockermfile o -t significa o nome da imagem e o -f o arquivo o ponto é onde será criada a imagem.
+docker build -t ubuntu_curl --build-arg "VAR_TEXTO=Lucas Brenner" -f Dockerfile . # Constroi a imagem passando um parametro valor como argumento a um ARG criado no docker file
+
+--------------------------------------------------------------------------------------------------------------
+docker volume create aula_vol # Cria o volume
+docker volume ls # Lista os volumes
+docker volume rm # Remove o volume
+
+---------------------------------------------------------------------------------------------------------------
+docker network ls # Lista todas as redes criadas no meu container
+docker network rm # Remove a rede.
+docker network connect aula_docker nginx # Vicula o meu container a um network criado manualmente
+docker network disconnet nome_rede nginx # Desconecta meu container da rede
+
+

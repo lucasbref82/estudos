@@ -1,0 +1,40 @@
+services:
+  posgre:
+    image: postgres:${POSTGRES_TAG:-12.17}
+    container_name: postgre_container
+    ports:
+      - 5432:5432
+    networks: 
+      - geral_network
+    volumes:
+      - postgre_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Pg123}
+      POSTGRES_USER: ${POSTGRES_USER:-kubenews}
+      POSTGRES_DB: ${POSTGRES_DB:-kubenews}
+  kubenews:
+    image: lucasbref82/kubenews:${KUBE_NEWS_TAG:-latest}
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    container_name: kubenews_container
+    ports:
+      - 8080:8080
+    networks: 
+      - geral_network
+    environment:
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-Pg123}
+      DB_USERNAME: ${POSTGRES_USER:-kubenews}
+      DB_DATABASE: ${POSTGRES_DB:-kubenews}
+      DB_HOST: postgre_container
+    depends_on:
+      - posgre
+volumes:
+  postgre_volume:
+    name: postgre_volume
+    external: true
+networks:
+  geral_network:
+    name: geral_network
+    driver: bridge
+    external: true

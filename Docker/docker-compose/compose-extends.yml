@@ -1,0 +1,27 @@
+services:
+  posgre:
+    image: postgres:${POSTGRES_TAG:-12.17}
+    container_name: postgre_container
+    ports:
+      - 5432:5432
+    networks: 
+      - geral_network
+    volumes:
+      - postgre_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kubenews}
+      POSTGRES_USER: ${POSTGRES_USER:-Pg123}
+      POSTGRES_DB: ${POSTGRES_DB:-kubenews}
+  web:
+    extends:
+      file: ./kubenews-compose.yml
+      service: kubenews
+volumes:
+  postgre_volume:
+    name: postgre_volume
+    external: true
+networks:
+  geral_network:
+    name: geral_network
+    driver: bridge
+    external: true

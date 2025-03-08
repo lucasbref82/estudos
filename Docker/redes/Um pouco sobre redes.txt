@@ -1,0 +1,9 @@
+NAT (Network Address Translation) é uma tecnologia que traduz endereços IP externos e internos. É um recurso que está presente em muitos firewalls e roteadores. 
+Como funciona 
+Quando um dispositivo da rede privada envia dados para a rede pública, o roteador substitui o endereço IP de origem pelo seu próprio endereço IP público.
+Quando o dispositivo de destino envia dados de volta para o roteador, o roteador substitui o endereço IP público pelo endereço IP de origem.
+Vantagens Economia de endereços IP, Melhora a segurança da rede, Flexibilidade na configuração de redes. 
+Aplicações
+Permite que uma rede privada use endereços IP internos não roteáveis. 
+Permite que um único dispositivo, como um roteador, atue como um agente entre a Internet e uma rede local. 
+Permite que uma máquina virtual acesse os recursos de rede usando o endereço IP do computador host. 

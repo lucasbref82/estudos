@@ -1,0 +1,14 @@
+docker info # Mostra informações relacionadas ao docker, versão, sistema instalado, container rodando e etc ...
+docker events # Mostra todos eventos que está acontecendo no docker, trava o terminal e vai mostrando o que está acontecendo.
+docker events --since 2h # Mostra os eventos executados a partir de duas horas atrás.
+docker events --until 30m # Mostra todos os eventos que aconteceram até 30 minutos atrás.
+docker events --filter event=create # Mostra somente eventos de criação pode ser combinado com o until e o since.
+docker container logs (IDCONTAINER) # Mostra os logs do container
+docker container logs --follow (IDCONTAINER) # Mostra os logs em tempo rel
+docker container logs --since '2025-02-22T11:34:00Z' (IDCONTAINER) # Mostra os eventos a partir de uma data
+docker container logs --until '2025-02-22T11:34:00Z' (IDCONTAINER) # Mostra os eventos até uma data especifica
+docker container logs --tail (IDCONTAINER) # Mostra os ultimos eventos do containers
+docker inspect # Mostra informações especificas de um objeto no docker.
+docker top (IDCONTAINER) # Mostra os processos que estão rodando dentro do container
+docker stats # Mostra o quanto meus recursos estão utilizando 
+docker stats --no-stream # Mostra o que está sendo consumindo no extato momento.

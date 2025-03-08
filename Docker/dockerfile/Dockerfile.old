@@ -1,0 +1,11 @@
+FROM ubuntu
+RUN apt-get update && apt install curl -y
+WORKDIR /app
+LABEL emil="lucasbref82@gmail.com"
+LABEL nome="Lucas Brenner Ferreira"
+LABEL telefone="(31) 99437-2780"
+VOLUME /app
+COPY arquivo.txt .
+ARG VAR_TEXTO="Texto XPTO"
+ENV VALOR_DOCKER_ENV="Valor XPTO"
+RUN echo $VAR_TEXTO > /app/arquivo.txt

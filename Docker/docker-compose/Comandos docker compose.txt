@@ -1,0 +1,11 @@
+docker compose up -d # Sobre a stack de containers e roda em background.
+docker compose up -d --build # Sobe a stack em background e constroi a imagem caso necessário.
+docker compose down # Mata a stack criada no docker compose up
+docker compose up -d --remove-orphans # Remove os container que foram criados no compose mas foram removidos
+docker compose ps # Mostra os container que foram criados pelo compose que está sendo utilizado.
+docker compose logs # Mostra os log de todoas os container do compose
+docker compose logs postgre # Mostra somente o log do serviço solicitado
+docker compose exec kubenews ls # Lista os arquivos do workdir
+docker compose build # Executa o build de todas as imagens que tem especificado para construir as imagens no compose
+docker compose push # Envia a imagem para o docker hub
+docker compose pull # Busca as imagens do docker hub

@@ -1,0 +1,4 @@
+Imagem X Container
+
+Imagem -> É todo sistema de arquivo usado para criar o container um template.
+Container -> É a forma de executar processos de forma isolada (Todo container tem uma imagem)

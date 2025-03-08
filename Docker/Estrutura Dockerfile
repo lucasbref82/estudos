@@ -1,0 +1,14 @@
+- FROM => Inicializa o build de uma imagem a partir de uma imagem base
+- RUN => Executa um comando
+- WORKDIR => Define o seu diretório corrente
+- COPY => Copia arquivos ou diretórios e adiciona ao sistema de arquivos da imagem
+- ADD => Copia arquivos ou diretórios ou arquivos remotos e adiciona ao sistema de arquivos da imagem
+- LABEL => Adiciona metadados à imagem
+- ENV => Define variáveis de ambiente
+- VOLUME => Define volumes que devem ser definidos
+- ARG => Define um argumento pra ser usado no processo de construção
+- EXPOSE => Define que o container precisa expor a porta em questão
+- USER => Define o usuário que vai ser usado
+- CMD => Define o comando e/ou os parâmetros padrão
+- ENTRYPOINT => Ajuda você a configurar um container que pode ser executado como um executável.
+
