@@ -1,0 +1,1 @@
+Pod é o menor elemento do kubernetes, é nele que será executado um ou vários containers.

@@ -1,4 +1,63 @@
-k3d cluster create -> É utilizado para criar o nosso clustes kubernetes.
-k3d clustes list -> Verifica os clusters criados.
-kubectl cluster-info -> Verifica as informações do cluster criado.
-kubctl get nodes -> Mosta o nó, vinculado ao cluster.
+kubectl version
+Verifica a versão do cliente e do servidor do Kubernetes.
+
+kubectl cluster-info
+Exibe informações sobre o cluster, como endpoints e serviços principais.
+
+kubectl get nodes
+Lista todos os nós (nodes) do cluster, permitindo verificar o status de cada um.
+
+kubectl get pods
+Mostra todos os pods em execução. Pode ser usado com a flag -n <namespace> para consultar um namespace específico.
+
+kubectl get services
+Lista todos os serviços (services) do cluster, úteis para entender a comunicação entre aplicações.
+
+kubectl get deployments
+Exibe os deployments configurados no cluster.
+
+kubectl describe <resource> <nome>
+Fornece detalhes aprofundados sobre um recurso (por exemplo, kubectl describe pod meu-pod).
+
+kubectl logs <nome-do-pod>
+Mostra os logs de um pod para monitoramento e depuração.
+
+kubectl exec -it <nome-do-pod> -- /bin/bash
+Abre um shell interativo dentro de um pod, ideal para troubleshooting ou verificações manuais.
+
+kubectl apply -f <arquivo.yaml>
+Aplica as configurações definidas em um arquivo YAML para criar ou atualizar recursos.
+
+kubectl delete -f <arquivo.yaml>
+Exclui os recursos definidos no arquivo YAML.
+
+kubectl scale deployment <nome> --replicas=<número>
+Ajusta o número de réplicas de um deployment, permitindo escalabilidade manual.
+
+kubectl rollout status deployment/<nome>
+Verifica o status de uma atualização (rollout) de um deployment.
+
+kubectl edit <resource> <nome>
+Abre o recurso no editor padrão para edição direta e rápida modificações.
+
+kubectl config view
+Mostra a configuração atual do kubectl (arquivo kubeconfig).
+
+kubectl config use-context <contexto>
+Alterna entre diferentes contextos configurados, facilitando a administração de múltiplos clusters.
+
+kubectl top nodes
+Exibe o consumo de recursos (CPU, memória) dos nós do cluster (requer metrics-server).
+
+kubectl top pods
+Mostra o uso de recursos dos pods, ajudando no monitoramento da performance.
+
+kubectl label <resource> <nome> <nova-label>=<valor>
+Adiciona ou modifica labels de um recurso, útil para organização e seleção.
+
+kubectl cordon <nome-do-nó> e kubectl drain <nome-do-nó>
+Comandos importantes para manutenção de nós:
+
+cordon: marca o nó para que novos pods não sejam agendados.
+drain: remove os pods atuais do nó para manutenção ou atualização.
+Esta lista abrange comandos para visualização, criação, modificação, depuração e manutenção dos recursos em um cluster Kubernetes. Dominar esses comandos é fundamental para uma administração eficiente.
