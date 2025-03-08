@@ -1,1 +1,4 @@
 k3d cluster create -> É utilizado para criar o nosso clustes kubernetes.
+k3d clustes list -> Verifica os clusters criados.
+kubectl cluster-info -> Verifica as informações do cluster criado.
+kubctl get nodes -> Mosta o nó, vinculado ao cluster.
