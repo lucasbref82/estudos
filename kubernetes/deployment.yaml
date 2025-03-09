@@ -1,9 +1,9 @@
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: Deployment
 metadata:
-  name: meureplicaset
+  name: meudeployment
 spec:
-  replicas: 10
+  replicas: 20
   selector:
     matchLabels:
       app: web
