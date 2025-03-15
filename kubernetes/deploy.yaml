@@ -26,10 +26,9 @@ metadata:
 spec:
   selector:
     app: conversao
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 8080
     name: http
     protocol: TCP
-    nodePort: 30000
