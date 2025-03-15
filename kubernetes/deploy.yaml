@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversao
+spec:
+  selector:
+    matchLabels:
+      app: conversao
+  template:
+    metadata:
+      labels:
+        app: conversao
+    spec:
+      containers:
+      - name: conversao
+        image: kubedevio/conversao-temperatura:v1
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversao
+spec:
+  selector:
+    app: conversao
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 8080
+    name: http
+    protocol: TCP
+    nodePort: 30000
