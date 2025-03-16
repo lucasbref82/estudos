@@ -1,0 +1,9 @@
+Cluster kubenetes -> São vários máquinas que formar cluster.
+Control plane -> É quem orquestra e gerência os container
+Worker node -> É quem executa os containers
+
+
+
+Componentes do control plane:
+Api Server -> Quem faz a comunicação interna e externa do cluster.
+Scheduller -> Recebe os elementos que deve ser criados pelo API SERVER e elege onde o container vai ser executado.
