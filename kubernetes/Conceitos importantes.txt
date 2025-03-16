@@ -7,3 +7,11 @@ Worker node -> É quem executa os containers
 Componentes do control plane:
 Api Server -> Quem faz a comunicação interna e externa do cluster.
 Scheduller -> Recebe os elementos que deve ser criados pelo API SERVER e elege onde o container vai ser executado.
+ETCD -> É um componente chave valor onde armazena todas as informações do kubernetes.
+Controller Manager -> O Controller Manager executa loops de controle que monitoram o estado do cluster e realizam ações para alcançar o estado desejado. Ele garante que o estado atual do cluster (estado real) corresponda ao estado desejado (estado definido nas especificações do Kubernetes).
+O Cloud Controller Manager (CCM) no Kubernetes é como um "tradutor" que ajuda o Kubernetes a conversar com serviços de nuvem, como AWS, Azure ou Google Cloud.
+
+
+Worker Node:
+Kube Proxy: O kube-proxy é um componente essencial do Kubernetes que gerencia a comunicação de rede entre os pods (aplicações) dentro do cluster e com o mundo externo.
+O kubelet é um dos principais componentes do Kubernetes, responsável por garantir que os containers (como Docker ou containerd) estejam rodando corretamente em cada nó (servidor) do cluster.

@@ -1,0 +1,1 @@
+Instalação do kubeadm: https://highfalutin-vulture-304.notion.site/Instala-o-com-Kubeadm-8ce4f709872342ff848a4df77e53618d
