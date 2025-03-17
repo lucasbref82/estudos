@@ -1,0 +1,44 @@
+# Kubernetes Manifesto Detalhado
+
+## Deployment
+
+apiVersion: apps/v1  # Versão da API Kubernetes
+kind: Deployment  # Tipo de recurso
+metadata:
+  name: meudeployment  # Nome do Deployment
+spec:
+  replicas: 20  # Número de réplicas do pod
+  selector:
+    matchLabels:
+      app: web  # Seleciona pods com o rótulo 'app: web'
+  template:
+    metadata:
+      labels:
+        app: web  # Rótulo para o pod
+    spec:
+      containers:  # Lista de contêineres
+      - name: web  # Nome do contêiner
+        image: kubedevio/web-color:blue  # Imagem do contêiner
+        ports:
+        - name: web  # Nome da porta
+          protocol: TCP  # Protocolo TCP
+          containerPort: 80  # Porta no contêiner
+
+---
+
+## Service
+
+apiVersion: v1  # Versão da API Kubernetes
+kind: Service  # Tipo de recurso
+metadata:
+  name: webcolor  # Nome do Service
+spec:
+  selector:
+    app: web  # Seleciona pods com o rótulo 'app: web'
+  ports:
+    - port: 80  # Porta do Service
+      targetPort: 80  # Porta no contêiner
+      nodePort: 30000  # Porta exposta no nó
+      name: http  # Nome da porta
+      protocol: TCP  # Protocolo TCP
+  type: NodePort  # Tipo do Service
