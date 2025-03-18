@@ -1,70 +1,17 @@
-# Comandos Mais Importantes do Kind
+Cria um cluster:
+kind create cluster
 
-O Kind (Kubernetes IN Docker) é uma ferramenta que facilita a criação de clusters Kubernetes locais utilizando contêineres Docker. A seguir, estão listados os principais comandos, com exemplos e descrições:
+Criar um cluster com nome:
+kind create cluster --name {NOME DO CLUSTER}
 
----
+Criar um cluster com nome e com uma configuração de um manifesto.
+kind create cluster --name {NOME DO CLUSTER} --config {CONFIGURACAO DO CLUSTER.yaml}
 
-## 1. Criar um Cluster
-
-```bash
-kind create cluster --name meu-cluster
-```
-
-**Descrição:**  
-Cria um novo cluster Kubernetes. Você pode personalizar o cluster utilizando um arquivo de configuração (YAML) com a flag `--config`.
-
----
-
-## 2. Listar Clusters
-
-```bash
+Listar todos os clusters:
 kind get clusters
-```
 
-**Descrição:**  
-Lista todos os clusters criados com o Kind.
+Deletar todos os clusters:
+kind delete clusters
 
----
-
-## 3. Excluir um Cluster
-
-```bash
-kind delete cluster --name meu-cluster
-```
-
-**Descrição:**  
-Exclui um cluster existente.
-
----
-
-## 4. Carregar Imagem Docker para o Cluster
-
-```bash
-kind load docker-image nome-da-imagem:tag --name meu-cluster
-```
-
-**Descrição:**  
-Carrega uma imagem Docker local para o cluster, facilitando o teste de imagens que você criou localmente.
-
----
-
-## 5. Exportar Logs do Cluster
-
-```bash
-kind export logs ./logs --name meu-cluster
-```
-
-**Descrição:**  
-Exporta os logs do cluster para uma pasta local, permitindo a análise detalhada de erros ou comportamentos do cluster.
-
----
-
-## 6. Exibir Versão do Kind
-
-kind version
-
-Exibe a versão instalada do Kind.
-
-
-Esses comandos são essenciais para criar, gerenciar e monitorar clusters Kubernetes locais de forma simples e eficiente.
-
+Delete um cluster pelo nome:
+Kind delete cluster --name {NOME DO CLUSTER}

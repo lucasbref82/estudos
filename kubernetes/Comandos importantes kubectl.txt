@@ -58,6 +58,8 @@ Adiciona ou modifica labels de um recurso, útil para organização e seleção.
 kubectl cordon <nome-do-nó> e kubectl drain <nome-do-nó>
 Comandos importantes para manutenção de nós:
 
+l
+
 cordon: marca o nó para que novos pods não sejam agendados.
 drain: remove os pods atuais do nó para manutenção ou atualização.
 Esta lista abrange comandos para visualização, criação, modificação, depuração e manutenção dos recursos em um cluster Kubernetes. Dominar esses comandos é fundamental para uma administração eficiente.
