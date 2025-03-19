@@ -1,17 +1,27 @@
-Cria um cluster:
 kind create cluster
+Cria um novo cluster Kubernetes local usando contêineres Docker. Você pode customizar o cluster utilizando um arquivo de configuração YAML, definindo parâmetros como número de nós, mapeamentos de portas, entre outros.
 
-Criar um cluster com nome:
-kind create cluster --name {NOME DO CLUSTER}
+kind create node-image
+(Disponível em versões mais recentes) Permite criar uma imagem Docker personalizada para os nós do cluster a partir de um Dockerfile, possibilitando customizações avançadas no ambiente dos nós.
 
-Criar um cluster com nome e com uma configuração de um manifesto.
-kind create cluster --name {NOME DO CLUSTER} --config {CONFIGURACAO DO CLUSTER.yaml}
+kind delete cluster
+Remove um cluster existente, liberando os recursos Docker utilizados.
 
-Listar todos os clusters:
 kind get clusters
+Lista todos os clusters que foram criados com o kind na máquina local, facilitando a visualização dos clusters ativos.
 
-Deletar todos os clusters:
-kind delete clusters
+kind get kubeconfig
+Exibe ou gera o arquivo kubeconfig para o cluster, permitindo a conexão e o gerenciamento do cluster via kubectl.
 
-Delete um cluster pelo nome:
-Kind delete cluster --name {NOME DO CLUSTER}
+kind load docker-image
+Carrega uma imagem Docker local para os nós do cluster. Esse comando é útil para testar imagens que ainda não foram publicadas em um repositório remoto.
+
+kind export logs
+Exporta os logs dos nós do cluster para um diretório especificado, auxiliando na análise e depuração de problemas.
+
+kind version
+Exibe a versão do kind instalada na sua máquina, útil para verificar atualizações ou compatibilidade.
+
+kind help
+Exibe a ajuda geral com a lista completa de comandos e as opções disponíveis para cada um deles. Você pode usar esse comando para obter detalhes adicionais e descobrir novas flags ou comandos que possam ter sido adicionados em versões futuras.
+
