@@ -1,0 +1,15 @@
+/: É o diretório raiz como se fosse o C: no windows
+/home: É onde ficam os diretórios de trabalho de cada usuário semelhante a users no windows.
+/root: É o diretório home do super usuário do linux chamado de root.
+/bin: É onde ficam os principais comandos do linux (cat, su, rm, pwd).
+/lib: Bibliotecas essenciais compartilhadas pelos programas e módulos do kernel.
+/usr: É onde a maioria dos programas são instalados, normalmente é usado com acesso somente leitura pelos usuários.
+/boot: Arquivos estáticos de gerenciamento de inicialização do sistema operacional.
+/etc: Arquivos de configuração do sistema e scripts de inicialização.
+/proc: Diretório virtual de informações do sistema.
+/sbin: Diretório de programas usados pelo superusuário root para administração e controle do sistema.
+/tmp: Arquivos temporários.
+/var: Dados variáveis como log, dados de administração, login e arquivos transitórios.
+/opt: Aplicativos adicionais e pacotes de softeware.
+/dev: Arquivos de dispositivos (periféricos).
+/mnt: Ponto de montagem para montar um sistema de arquivos temporariamente.

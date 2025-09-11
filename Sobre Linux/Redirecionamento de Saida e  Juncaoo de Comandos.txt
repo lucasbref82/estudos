@@ -1,0 +1,7 @@
+Redirecionamento de saida do terminal, e junção de comandos:
+	ls |(Pipe une dois comandos) grep -i (Não diferencia minusculo de maiusculo) erro: Lista todos arquivos que contem
+	erro no nome.
+	ls > saida.txt: imprime o resultado do ls dentro do arquivo saida.txt (Redireciona o stdout para o arquivo)
+	ls >> saida.txt: Concatena o valor que que será impresso com o que já existe. (Redireciona o stdout para o arquivo)
+	mkdir kubedev/teste 2> erro.txt: Caso não exista a pasta kubedev o erro sera impresso no arquivo erro.txt 
+	(Redireciona o stderr para o arquivo)

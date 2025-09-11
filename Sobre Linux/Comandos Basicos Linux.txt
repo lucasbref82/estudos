@@ -1,0 +1,20 @@
+Comandos linux:
+	uname: Retorna nome e versão do kernel do linux.
+	uname -s: Printa o nome do kernel.
+	uname -n: Printa o nome do usuário na rede.
+	uname -r: Retorna release do kernel.
+	uname -v: Versão do kernel.
+	uname -m: Retorna o nome do hardware.
+	uname -p: Retorna tipo do processador.
+	uname -i: Retorna a plataforma do hardware.
+	uname -o: Retorna o sistema operacional.
+	uname -a: Retorna todos os dados acima.
+	clear: Limpa o console
+	sudo: executa o comando usando o super usuário.
+	sudo su: Entra com o usuário root no sistema.
+	who: Retorna qual usuário está logado.
+	free: Quanto tem de consumo e uso de memória.
+	shutdown: Desliga a máquina.
+	shutdown -r: Reinicia a máquina
+	shutdown now: Reinicia a máquina agora.
+	man: Mostra os detalhes dos comandos.

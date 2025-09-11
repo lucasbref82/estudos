@@ -1,0 +1,10 @@
+Quando tem o .deb baixado:
+	Instalar: sudo dpkg -i <arquivo.deb>.
+	Remover: sudo dpkg -d <programa>.
+
+Instalar direto de um repositório: 
+	Atualizar repositórios da máquina: sudo apt update
+	Baixar a partir de um repositório: sudo apt install nodejs
+	Remover a partir de um repositório: sudo apt remove nodejs
+	Pesquisar repositórios: sudo apt search xpto
+	

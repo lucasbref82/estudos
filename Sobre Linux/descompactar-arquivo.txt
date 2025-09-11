@@ -1,0 +1,3 @@
+unzip arquivo.zip
+unzip arquivo.zip -d /caminho/para/destino
+	

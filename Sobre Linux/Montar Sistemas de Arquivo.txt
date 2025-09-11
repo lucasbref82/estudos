@@ -1,0 +1,3 @@
+Montar arquivos no sistema, exemplo HD:
+	sudo mount /dev/sda1 /mnt/hd: Irá montar meu HD sda1 que fica na pasta dev na pasta mnt/hd.
+	sudo unmount /mnt/hd: Irá desmontar o HD.

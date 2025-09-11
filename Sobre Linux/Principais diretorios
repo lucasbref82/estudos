@@ -1,0 +1,4 @@
+/boot -> Todos os arquivos responsáveis pela inicialização do sistema operacional.
+/bin -> Principais programas utilizados no linux.
+/lib -> Onde fica as principais bibliotecas usadas pelo Linux.
+/proc -> É usada para ver os serviços que estão rodando no Linux.

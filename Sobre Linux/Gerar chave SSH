@@ -1,0 +1,29 @@
+# 1. Verificar se já existe uma chave SSH
+ls -l ~/.ssh/id_rsa.pub
+
+# Se o arquivo existir, pule para o passo 3. Caso contrário, siga para o passo 2.
+
+# 2. Gerar uma nova chave SSH
+ssh-keygen -t rsa -b 4096 -C "seu-email@example.com"
+
+# Pressione ENTER para aceitar o local padrão (~/.ssh/id_rsa).
+# Se desejar, defina uma senha para maior segurança.
+
+# 3. Iniciar o agente SSH e adicionar a chave
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+
+# 4. Copiar a chave pública para adicionar ao GitHub/GitLab/Bitbucket
+cat ~/.ssh/id_rsa.pub
+
+# Copie a saída do comando acima e adicione a chave nas configurações da sua conta do Git.
+
+# 5. Testar a conexão com o GitHub (ou outro serviço Git)
+ssh -T git@github.com
+# Para GitLab:
+# ssh -T git@gitlab.com
+# Para Bitbucket:
+# ssh -T git@bitbucket.org
+
+# Se a autenticação for bem-sucedida, uma mensagem como "Hi <username>! You've successfully authenticated" aparecerá.
+

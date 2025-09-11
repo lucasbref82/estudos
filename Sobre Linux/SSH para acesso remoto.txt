@@ -1,0 +1,20 @@
+Secure Shell:
+	Protocolo para troca segura de informações.
+	Executa remota de comandos.
+	Trabalha com usuário e senha ou par de chaves.
+	Leve e fácil uso.
+	Amplamente utilizado no mercado.
+
+Acesso SSH:
+	Acessar com chave e senha: Criar usuário e senha no servidor e digitar no terminal: 
+	ssh root@<Ip Público da máquina> -> Digitar a senha criada.
+	Acessar com par de chaves:
+		Chave Pública: Funciona como um cadeado. (Servidor)
+		Chave Privada: Funciona como uma chave. (Máquina)
+	Criar chaves: ssh-keygen -t (tipo) rsa -b (Tamanho em bits) 2048
+	Verificar e copiar a chave: cat ~/.ssh/id_rsa.pub
+	Adicionar chave ao servidor.
+	Executar o comando ssh root@<Ip Público da máquina> quando o terminal está acessando a mesma pasta onde a
+	chave foi criada.
+	Executar o comando ssh -i <Pasta da chave SSH> root@<Ip Público da máquina> quando o terminal está acessando 	a uma pasta diferente de onde a chave foi criada.
+	
