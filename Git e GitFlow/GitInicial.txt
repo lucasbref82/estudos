@@ -4,6 +4,10 @@ git init - Cria um repositório local.
 
 git remote add origin "Url do repositório criado no github".
 
+git branch -m master main
+
+git push -u origin main
+
 git pull origin "nome_branch_master".
 
 git config --list "Verificar o nome e o email".
