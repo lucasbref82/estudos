@@ -15,3 +15,34 @@ x Write (Escrita)
 x Execution (Execução)
 - Sem permissão
 
+Comando chmod - Alterar as permissões de acesso à arquivos e diretórios.
+
+Modo de permissões octal
+
+Sintaxe:
+chmod [permissões] [arquivo ou diretório]
+
+Execução = 1
+Escrita = 2
+Leitura = 4
+
+
+rwx
+111         1 = ligado / 0 = desligado
+
+--x
+001 = 1
+
+-w-
+010 = 2
+
+r--
+100 = 4
+
+rw-
+110 = 4 + 2 = 6
+
+rwx
+111 = 4 + 2 + 1 = 7
+
+
