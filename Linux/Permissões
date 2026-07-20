@@ -1,0 +1,17 @@
+Permissões Links  Propriétario Grupo   Tamanho  Data e Hora   Nome
+drwxr-xr-x 2      brenner      brenner 4096     jul  4 20:33  Músicas
+
+d = diretório
+- = arquivo comum de usuário
+c = arquivo de caractere
+b = arquivo de bloco
+l = link
+
+Proprietário    Grupo   Outros
+rwx             r-x     r-x 
+
+r Read (Leitura)
+x Write (Escrita)
+x Execution (Execução)
+- Sem permissão
+
