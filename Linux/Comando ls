@@ -1,0 +1,5 @@
+ls -l -> Ver detalhes
+ls -a -> Ver ocultos
+ls -la -> Ver detalhes e ocultos
+ls -lh -> Ver detalhes e ocultos com o tamanho de arquivo legível para humanos
+ls -ltr -> Achar o arquivo modificado mais recentemente

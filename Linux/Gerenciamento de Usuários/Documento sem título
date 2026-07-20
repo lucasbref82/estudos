@@ -1,0 +1,24 @@
+Gerenciamento de Usuários
+
+Arquivos de configuração:
+/etc/passwd
+/etc/group
+/etc/shadow
+/etc/gshadow
+
+/etc/passwd
+- Lista dos usuários do sistema
+- Antigamente -> arquivo de senhas (uso original)
+- Legível por qualquer um no sistema
+- Pode ser editado com editores de textos; porém é recomendado que sejam feitas alterações com o comando usermod (/usr/sbin/usermod).
+
+brenner:x:1000:1000:brenner,,,:/home/brenner:/bin/bash
+   1    2   3    4      5           6             7
+
+1 - Nome de usuário (1-32 caracteres)
+2 - Senha (senhas shadow)
+3 - UID (Identificação do usuário)
+4 - GID (ID do Grupo) (Todo usuário possui um grupo primário ou um grupo padrão)
+5 - Informações extras sobre o usuário
+6 - Diretório home (padrão)
+7 - Shell Padrão
