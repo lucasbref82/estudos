@@ -1,0 +1,14 @@
+sudo adduser xpto - Cria o usuário XPTO
+sudo groupadd devs - Cria o grupo devs
+
+chgrp (change group) - Alterar o grupo de um arquivo ou diretório
+
+Sintaxe:
+chgrp [novo_grupo] [nome_arquivo]
+
+
+chown (change owner) - Alterar o proprietário de um arquivo ou diretório
+
+Sintaxe:
+chown [novo_proprietario] [nome_arquivo]
+

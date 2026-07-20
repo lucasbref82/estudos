@@ -1,0 +1,16 @@
+Essenciais:
+
+apt update                    # atualiza a lista de pacotes disponíveis
+apt upgrade                   # instala as atualizações disponíveis
+apt install [pacote]          # instala um pacote
+apt remove [pacote]           # remove (mantém configs)
+apt purge [pacote]            # remove + apaga configs
+apt autoremove                # limpa dependências que não são mais usadas
+
+
+De busca:
+
+apt search [termo]            # busca pacotes pelo nome/descrição
+apt show [pacote]             # detalhes de um pacote (versão, dependências)
+apt list --installed          # lista tudo que está instalado
+apt list --upgradable         # o que tem atualização disponível
