@@ -16,5 +16,5 @@ Acesso SSH:
 	Adicionar chave ao servidor.
 	Executar o comando ssh root@<Ip Público da máquina> quando o terminal está acessando a mesma pasta onde a
 	chave foi criada.
-	Executar o comando ssh -i <Pasta da chave SSH> root@<Ip Público da máquina> quando o terminal está acessando 	a uma pasta diferente de onde a chave foi criada.
+	Executar o comando ssh -i <Pasta da chave SSH> root@<Ip Público da máquina> quando o terminal está acessando a uma pasta diferente de onde a chave foi criada.
 	

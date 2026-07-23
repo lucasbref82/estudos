@@ -1,0 +1,80 @@
+Variaveis de ambiente são informações que o sistema operacional
+mantém disponiveis para os programas que estão rodando. Pensa
+como configurações globais que qualquer programa pode consultar
+- por exemplo, onde o Java está instalado, qual é o usuario
+logado, ou qual pasta é o home.
+
+
+COMANDOS PRINCIPAIS
+--------------------
+
+env                         - lista todas as variaveis de ambiente ativas
+printenv NOME_VARIAVEL      - mostra o valor de uma variavel especifica
+echo $NOME_VARIAVEL         - mesma coisa, mas usando o shell diretamente
+export NOME_VARIAVEL=valor  - cria uma variavel e disponibiliza para subprocessos
+unset NOME_VARIAVEL         - apaga a variavel do ambiente
+
+
+VARIAVEIS QUE JA EXISTEM NO SISTEMA
+-------------------------------------
+
+echo $HOME   - pasta do seu usuario (/home/brenner)
+echo $USER   - nome do usuario logado
+echo $PATH   - pastas onde o sistema busca os programas instalados
+echo $SHELL  - shell que voce está usando (/bin/bash)
+echo $PWD    - pasta atual (mesmo resultado que digitar pwd)
+
+
+EXPORT - POR QUE ELE IMPORTA
+------------------------------
+
+Quando voce cria uma variavel sem export, ela existe so no terminal
+atual. Com export, ela passa a ser visivel para scripts e programas
+que voce executar a partir dali.
+
+sem export - script nao enxerga:
+
+    MINHA_VAR=teste
+    bash meu_script.sh   (MINHA_VAR nao existe dentro do script)
+
+com export - script enxerga:
+
+    export MINHA_VAR=teste
+    bash meu_script.sh   (MINHA_VAR disponivel dentro do script)
+
+
+ONDE SALVAR PARA NAO SUMIR APOS FECHAR O TERMINAL
+---------------------------------------------------
+
+    nano ~/.bashrc                   (abre o arquivo de configuracao)
+    export MINHA_VAR=valor           (adiciona no final do arquivo)
+    source ~/.bashrc                 (recarrega sem fechar o terminal)
+
+
+DIFERENCA ENTRE OS ARQUIVOS DE CONFIGURACAO
+--------------------------------------------
+
+~/.bashrc
+    Afeta so seu usuario. Carrega toda vez que voce abre um terminal.
+    É onde voce coloca a maioria das variaveis de desenvolvimento.
+
+~/.profile
+    Afeta so seu usuario, mas carrega apenas no login do sistema.
+    Util para variaveis que precisam existir antes do terminal abrir.
+
+/etc/environment
+    Afeta todos os usuarios e carrega no boot. Use quando um servico
+    do sistema precisar enxergar a variavel, como o JAVA_HOME.
+    Atencao - nao usa export aqui, so VARIAVEL=valor.
+
+/etc/profile
+    Afeta todos os usuarios no login. Raramente voce vai precisar
+    mexer aqui.
+
+
+DICA PRATICA
+-------------
+
+O JAVA_HOME faz mais sentido ficar em /etc/environment porque o
+sistema inteiro precisa saber onde o Java esta instalado, nao so
+o seu terminal.
