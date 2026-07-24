@@ -1,0 +1,88 @@
+No Linux tudo segue uma estrutura de pastas bem definida.
+Os programas ficam em lugares diferentes dependendo de como
+foram instalados.
+
+
+PROGRAMAS INSTALADOS PELO APT
+-------------------------------
+
+/usr/bin/       - executaveis dos programas
+/usr/lib/       - bibliotecas dos programas
+/usr/share/     - arquivos de dados, icones, documentacao
+/etc/           - arquivos de configuracao
+
+
+PROGRAMAS INSTALADOS MANUALMENTE
+----------------------------------
+
+/opt/           - programas que vieram fora do repositorio oficial
+                  ex: o IntelliJ fica em /opt/intellij/
+
+/usr/local/bin/ - programas compilados manualmente pelo usuario
+
+
+OUTRAS PASTAS IMPORTANTES
+--------------------------
+
+~/.local/share/ - programas instalados so para seu usuario
+/var/           - dados variaveis como logs e cache
+/var/log/       - logs do sistema e dos programas
+/tmp/           - arquivos temporarios, limpa ao reiniciar
+
+
+REGRA RAPIDA PARA LEMBRAR
+--------------------------
+
+- Veio pelo apt       - esta em /usr
+- Veio manual/externo - esta em /opt
+- E configuracao      - esta em /etc
+- E log               - esta em /var/log
+- E so do seu usuario - esta em ~/.local/share
+
+
+================================================
+COMO ENCONTRAR QUALQUER ARQUIVO OU PASTA
+================================================
+
+O comando find vasculha o sistema inteiro e retorna o caminho
+do que voce esta procurando.
+
+
+SINTAXE BASICA
+---------------
+
+find / -name "NOME"          - busca pelo nome exato
+find / -iname "*NOME*"       - busca ignorando maiusculas e minusculas
+                               e encontra qualquer coisa que contenha
+                               aquela palavra no nome
+find / -name "NOME" -type d  - filtra so diretorios (d de directory)
+find / -name "NOME" -type f  - filtra so arquivos (f de file)
+2>/dev/null                  - joga os erros de permissao fora para
+                               nao poluir o resultado
+
+
+EXEMPLOS PRATICOS
+------------------
+
+# achar uma pasta pelo nome
+find / -name "scripts" -type d 2>/dev/null
+
+# achar um arquivo pelo nome
+find / -name "meuarquivo.sh" -type f 2>/dev/null
+
+# achar qualquer coisa relacionada a um programa
+find / -iname "*dbeaver*" 2>/dev/null
+
+# achar scripts do dbeaver especificamente
+find / -name "scripts" -type d 2>/dev/null | grep -i dbeaver
+
+
+O MACETE
+---------
+
+Sempre que precisar achar algo e nao souber onde esta,
+usa o -iname com asterisco dos dois lados. Ele e o mais
+poderoso porque busca qualquer arquivo ou pasta que tenha
+aquela palavra no nome, sem diferenciar maiuscula de minuscula.
+
+    find / -iname "*nome_do_programa*" 2>/dev/null
