@@ -1,7 +1,0 @@
-Comando touch:
-Serve para alterar e data de de acesso ou a data de modificação do arquivo:
-
-Exemplo: touch {NOME_ARQUIVO} - Cria um arquivo caso ele não exista e caso exista altera a data de modificação do arquivo
-
-Exemplo: touch -m (Modificação) -t 202607281400 {NOME_ARQUIVO}
-Exemplo: touch -a (Acesso) -t 202607281400 {NOME_ARQUIVO}
