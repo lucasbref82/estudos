@@ -1,20 +1,97 @@
-Comandos linux:
-	uname: Retorna nome e versão do kernel do linux.
-	uname -s: Printa o nome do kernel.
-	uname -n: Printa o nome do usuário na rede.
-	uname -r: Retorna release do kernel.
-	uname -v: Versão do kernel.
-	uname -m: Retorna o nome do hardware.
-	uname -p: Retorna tipo do processador.
-	uname -i: Retorna a plataforma do hardware.
-	uname -o: Retorna o sistema operacional.
-	uname -a: Retorna todos os dados acima.
-	clear: Limpa o console
-	sudo: executa o comando usando o super usuário.
-	sudo su: Entra com o usuário root no sistema.
-	who: Retorna qual usuário está logado.
-	free: Quanto tem de consumo e uso de memória.
-	shutdown: Desliga a máquina.
-	shutdown -r: Reinicia a máquina
-	shutdown now: Reinicia a máquina agora.
-	man: Mostra os detalhes dos comandos.
+
+Comandos uteis para consultar informacoes do sistema,
+gerenciar usuarios e controlar a maquina.
+
+
+UNAME - INFORMACOES DO SISTEMA
+--------------------------------
+
+O uname retorna informacoes sobre o kernel e o hardware.
+Util quando voce precisa saber o que esta rodando na maquina.
+
+uname          - retorna nome e versao do kernel
+uname -s       - nome do kernel
+uname -n       - nome do usuario na rede
+uname -r       - release do kernel
+uname -v       - versao do kernel
+uname -m       - nome do hardware
+uname -p       - tipo do processador
+uname -i       - plataforma do hardware
+uname -o       - sistema operacional
+uname -a       - retorna todos os dados acima de uma vez
+
+
+COMANDOS DO DIA A DIA
+----------------------
+
+clear          - limpa o console
+who            - mostra qual usuario esta logado
+free           - mostra consumo e uso de memoria RAM
+
+
+SUDO - SUPER USUARIO
+---------------------
+
+O sudo permite executar comandos como administrador do sistema.
+Sem ele voce nao consegue instalar programas, editar arquivos
+do sistema ou alterar configuracoes globais.
+
+sudo <comando>  - executa o comando como super usuario
+sudo su         - entra como usuario root no sistema
+
+
+SHUTDOWN - DESLIGAR E REINICIAR
+---------------------------------
+
+shutdown           - desliga a maquina
+shutdown -r        - reinicia a maquina
+shutdown now       - desliga agora sem esperar
+shutdown -r now    - reinicia agora sem esperar
+
+
+MAN - MANUAL DOS COMANDOS
+---------------------------
+
+O man e seu melhor amigo quando voce nao lembra o que um
+comando faz ou quais opcoes ele aceita.
+
+man <comando>   - abre o manual completo do comando
+
+    ex: man find
+    ex: man chmod
+    ex: man ls
+
+
+================================================
+TOUCH - CRIAR E ALTERAR DATAS DE ARQUIVOS
+================================================
+
+O touch serve para criar arquivos vazios ou alterar a data
+de acesso e modificacao de um arquivo que ja existe.
+
+
+USO BASICO
+-----------
+
+touch <arquivo>    - cria o arquivo se nao existir
+                     se ja existir, atualiza a data de modificacao
+
+
+ALTERANDO DATAS ESPECIFICAS
+-----------------------------
+
+O formato de data e: AAAAMMDDHHMM
+- AAAA - ano com 4 digitos
+- MM   - mes
+- DD   - dia
+- HH   - hora
+- MM   - minuto
+
+touch -m -t 202607281400 <arquivo>   - altera a data de modificacao
+touch -a -t 202607281400 <arquivo>   - altera a data de acesso
+
+    -m - modification - data de modificacao
+    -a - access - data de acesso
+
+
+================================================
