@@ -1,1 +1,82 @@
+Comandos para filtrar, ordenar e visualizar partes de arquivos
+ou saidas de outros comandos. Muito usados combinados com pipe |
+
+
+CAT - VISUALIZAR E CONCATENAR ARQUIVOS
+----------------------------------------
+
+O cat e um dos comandos mais usados no Linux. O nome vem de
+concatenate - ele serve para mostrar o conteudo de arquivos
+na tela e combinar arquivos entre si.
+
+cat arquivo.txt              - mostra o conteudo do arquivo na tela
+cat -n arquivo.txt           - mostra o conteudo com numero de linhas
+cat arquivo1.txt arquivo2.txt         - mostra os dois na tela em sequencia
+cat arquivo1.txt >> arquivo2.txt      - adiciona o conteudo do primeiro
+                                        no final do segundo
+cat arquivo1.txt > arquivo_novo.txt   - copia o conteudo para um arquivo novo
+
+uso pratico:
+    cat log.txt | grep "ERROR"            - filtra so as linhas com ERROR
+    cat log.txt | tail -50 | grep "ERROR" - filtra erros nas ultimas 50 linhas
+    cat arquivo.xml | grep "CNPJ"         - util para debugar integrações Sankhya
+
+
+HEAD - PRIMEIRAS LINHAS
+-------------------------
+
+O head pega as primeiras linhas de um arquivo ou saida de comando.
+Voce ja usa ele no script de deploy para pegar o arquivo mais recente.
+
+head arquivo.txt        - mostra as 10 primeiras linhas por padrao
+head -5 arquivo.txt     - mostra as 5 primeiras linhas
+head -1 arquivo.txt     - mostra so a primeira linha
+
+uso pratico:
+    ls -t pasta/ | head -1    - pega so o arquivo mais recente da pasta
+
+
+TAIL - ULTIMAS LINHAS
+----------------------
+
+O tail pega as ultimas linhas. Muito usado para acompanhar logs
+em tempo real - vai ser frequente quando voce estiver debugando
+containers e servicos no Docker.
+
+tail arquivo.txt              - ultimas 10 linhas por padrao
+tail -5 arquivo.txt           - ultimas 5 linhas
+tail -f /var/log/syslog       - acompanha o arquivo em tempo real
+                                conforme ele vai crescendo
+
+uso pratico no docker:
+    docker logs -f <container>    - equivalente ao tail -f mas para containers
+    tail -f /var/log/syslog       - acompanhar logs do sistema em tempo real
+
+
+SORT - ORDENACAO
+-----------------
+
+O sort ordena a saida de um arquivo ou comando. Mais util
+combinado com outros comandos via pipe do que sozinho.
+
+sort arquivo.txt        - ordena alfabeticamente
+sort -r arquivo.txt     - ordena ao contrario
+sort -n arquivo.txt     - ordena numericamente
+sort -u arquivo.txt     - ordena e remove linhas duplicadas
+
+uso pratico:
+    cat arquivo.txt | sort -u    - remove linhas duplicadas de um arquivo
+    ls | sort -r                 - lista arquivos em ordem alfabetica invertida
+
+
+O PIPE - COMBINANDO COMANDOS
+-----------------------------
+
+O pipe | e o que une esses comandos e e onde eles ficam
+mais poderosos. Ele pega a saida de um comando e joga como
+entrada para o proximo.
+
+    ls -t | head -1              - pega o arquivo mais recente
+    cat log.txt | tail -50       - ve as ultimas 50 linhas de um log
+    cat arquivo.txt | sort -u    - ordena e remove duplicatas
 
