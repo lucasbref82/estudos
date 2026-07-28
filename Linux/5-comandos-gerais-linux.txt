@@ -1,4 +1,3 @@
-
 Comandos uteis para consultar informacoes do sistema,
 gerenciar usuarios e controlar a maquina.
 
@@ -62,23 +61,14 @@ man <comando>   - abre o manual completo do comando
     ex: man ls
 
 
-================================================
 TOUCH - CRIAR E ALTERAR DATAS DE ARQUIVOS
-================================================
+------------------------------------------
 
 O touch serve para criar arquivos vazios ou alterar a data
 de acesso e modificacao de um arquivo que ja existe.
 
-
-USO BASICO
------------
-
 touch <arquivo>    - cria o arquivo se nao existir
                      se ja existir, atualiza a data de modificacao
-
-
-ALTERANDO DATAS ESPECIFICAS
------------------------------
 
 O formato de data e: AAAAMMDDHHMM
 - AAAA - ano com 4 digitos
@@ -92,6 +82,3 @@ touch -a -t 202607281400 <arquivo>   - altera a data de acesso
 
     -m - modification - data de modificacao
     -a - access - data de acesso
-
-
-================================================
